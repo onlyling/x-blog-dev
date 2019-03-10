@@ -1,0 +1,23 @@
+{
+  "name": "x-blog-dev",
+  "version": "1.0.0",
+  "description": "x-blog-dev",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/onlyling/x-blog-dev.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/onlyling/x-blog-dev/issues"
+  },
+  "homepage": "https://github.com/onlyling/x-blog-dev#readme",
+  "devDependencies": {
+    "commitizen": "^3.0.7",
+    "cz-customizable": "^5.4.0"
+  }
+}
