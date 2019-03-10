@@ -3,7 +3,7 @@
 
 import 'egg';
 import ExportTest from '../../../app/service/Test';
-import ExportUser from '../../../app/service/User';
+import ExportUser from '../../../app/service/user';
 
 declare module 'egg' {
   interface IService {

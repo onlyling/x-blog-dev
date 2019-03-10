@@ -10,6 +10,9 @@ export default () => {
       username: 'root',
       password: '',
       timezone: '+08:00'
+    },
+    security: {
+      csrf: false
     }
   };
   return config;
