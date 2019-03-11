@@ -72,7 +72,7 @@ export default class MainService extends Service {
     const params = {
       user_name,
       super_admin,
-      password: null
+      password: ''
     };
 
     if (password) {

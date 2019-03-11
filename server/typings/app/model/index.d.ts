@@ -2,11 +2,11 @@
 // Do not modify this file!!!!!!!!!
 
 import 'egg';
-import ExportBlog from '../../../app/model/blog';
-import ExportCategory from '../../../app/model/category';
-import ExportComment from '../../../app/model/comment';
-import ExportTag from '../../../app/model/tag';
-import ExportUser from '../../../app/model/user';
+import ExportBlog from '../../../app/model/Blog';
+import ExportCategory from '../../../app/model/Category';
+import ExportComment from '../../../app/model/Comment';
+import ExportTag from '../../../app/model/Tag';
+import ExportUser from '../../../app/model/User';
 
 declare module 'sequelize' {
   interface Sequelize {

@@ -6,7 +6,7 @@ import { TypeApiBaseResponse } from '../typings/global';
  * 成功返回数据
  * @param data any 返回的内容
  */
-export function ApiSuccess(data: any): TypeApiBaseResponse {
+const ApiSuccess = (data: any): TypeApiBaseResponse => {
   const __data: TypeApiBaseResponse = {
     success: true
   };
@@ -18,13 +18,13 @@ export function ApiSuccess(data: any): TypeApiBaseResponse {
   }
 
   return __data;
-}
+};
 
 /**
  * 失败返回的数据
  * @param data any 返回的数据
  */
-export function ApiError(data: any): TypeApiBaseResponse {
+const ApiError = (data: any): TypeApiBaseResponse => {
   const __data: TypeApiBaseResponse = {
     success: false
   };
@@ -36,15 +36,21 @@ export function ApiError(data: any): TypeApiBaseResponse {
   }
 
   return __data;
-}
+};
 
 /**
  * sha1 加密一段字符串
  * @param str 字符串
  */
-export function doEncryptBySHA1(str: any): string {
+const doEncryptBySHA1 = (str: any): string => {
   return crypto
     .createHash('sha1')
     .update(str)
     .digest('hex');
-}
+};
+
+export default {
+  ApiSuccess,
+  ApiError,
+  doEncryptBySHA1
+};
