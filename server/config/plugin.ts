@@ -4,7 +4,8 @@ const plugin: EggPlugin = {
   sequelize: {
     enable: true,
     package: 'egg-sequelize'
-  }
+  },
+  session: true
   // static: true,
   // nunjucks: {
   //   enable: true,

@@ -49,8 +49,17 @@ const doEncryptBySHA1 = (str: any): string => {
     .digest('hex');
 };
 
+/**
+ * markdown 转 HTML
+ */
+const Marked = (str: string): string => {
+  // TODO Marked
+  return str;
+};
+
 export default {
   ApiSuccess,
   ApiError,
-  doEncryptBySHA1
+  doEncryptBySHA1,
+  Marked
 };

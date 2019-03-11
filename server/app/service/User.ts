@@ -1,7 +1,7 @@
 import { Service } from 'egg';
 
 /**
- * Test Service
+ * User Service
  */
 export default class MainService extends Service {
   /**
@@ -30,6 +30,8 @@ export default class MainService extends Service {
       password = helper.doEncryptBySHA1(password);
       if (instance.password === password) {
         // 登录成功
+        ctx.session.UserInfo = instance;
+
         return helper.ApiSuccess('用户登录成功');
       } else {
         return helper.ApiError(loginErrorMSG);

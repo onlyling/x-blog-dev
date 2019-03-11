@@ -1,6 +1,6 @@
 import { Controller } from 'egg';
 
-export default class HomeController extends Controller {
+export default class MainController extends Controller {
   /**
    * PostOne 创建用户
    */

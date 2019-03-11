@@ -41,7 +41,7 @@ module.exports = (app: Application) => {
   // 关联关系
   Instance.associate = () => {
     app.model.Blog.belongsTo(app.model.Category, {
-      as: 'blog_category'
+      as: 'category'
     });
     app.model.Blog.belongsTo(app.model.User, {
       as: 'user'
