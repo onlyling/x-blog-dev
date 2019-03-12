@@ -1,11 +1,22 @@
 import { Application } from 'egg';
 
-module.exports = (app: Application) => {
+import * as sequelize from 'sequelize';
+
+interface TypeModelAttributes {
+  id?: number;
+  title: string;
+  content?: string;
+  markdown_content: string;
+  diy_url?: string;
+}
+
+type TypeModelInstance = sequelize.Instance<TypeModelAttributes> & TypeModelAttributes;
+
+type TypeModeleModel = sequelize.Model<TypeModelInstance, TypeModelAttributes>;
+
+const initModel = (app: Application): TypeModeleModel => {
   const { STRING, INTEGER, TEXT } = app.Sequelize;
-  /**
-   * 日志表
-   */
-  const Instance = app.model.define('blog', {
+  const attributes: SequelizeAttributes<TypeModelAttributes> = {
     // ID
     id: {
       type: INTEGER,
@@ -36,7 +47,11 @@ module.exports = (app: Application) => {
       allowNull: true,
       validate: {}
     }
-  });
+  };
+  /**
+   * 日记表
+   */
+  const Instance = app.model.define<TypeModelInstance, TypeModelAttributes>('blog', attributes);
 
   // 关联关系
   Instance.associate = () => {
@@ -47,9 +62,16 @@ module.exports = (app: Application) => {
       as: 'user'
     });
     app.model.Blog.belongsToMany(app.model.Tag, {
-      through: 'blog_tag'
+      through: {
+        model: app.model.BlogAndTag,
+        unique: false
+      },
+      foreignKey: 'blog_id',
+      constraints: false
     });
   };
 
   return Instance;
 };
+
+export default initModel;

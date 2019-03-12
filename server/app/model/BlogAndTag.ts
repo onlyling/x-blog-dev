@@ -3,10 +3,8 @@ import { Application } from 'egg';
 import * as sequelize from 'sequelize';
 
 interface TypeModelAttributes {
-  id?: number;
-  user_name: string;
-  password: string;
-  super_admin?: number;
+  blog_id: number;
+  tag_id: number;
 }
 
 type TypeModelInstance = sequelize.Instance<TypeModelAttributes> & TypeModelAttributes;
@@ -14,42 +12,31 @@ type TypeModelInstance = sequelize.Instance<TypeModelAttributes> & TypeModelAttr
 type TypeModeleModel = sequelize.Model<TypeModelInstance, TypeModelAttributes>;
 
 const initModel = (app: Application): TypeModeleModel => {
-  const { STRING, INTEGER } = app.Sequelize;
+  const { INTEGER } = app.Sequelize;
   const attributes: SequelizeAttributes<TypeModelAttributes> = {
-    // ID
-    id: {
+    // 日记 ID
+    blog_id: {
       type: INTEGER,
-      primaryKey: true,
-      autoIncrement: true
-    },
-    // 用户名
-    user_name: {
-      type: STRING,
       allowNull: false,
       validate: {}
     },
-    // 密码
-    password: {
-      type: STRING,
-      allowNull: false,
-      validate: {}
-    },
-    // 是否是超级管理员 1 不是， 2 是；
-    super_admin: {
+    // 标签 ID
+    tag_id: {
       type: INTEGER,
       allowNull: false,
-      defaultValue: 1
+      validate: {}
     }
   };
-
   /**
-   * 用户表
+   * 日记和标签关联表
    */
-  const Instance = app.model.define<TypeModelInstance, TypeModelAttributes>('user', attributes);
+  const Instance = app.model.define<TypeModelInstance, TypeModelAttributes>('blog_and_tag', attributes);
 
   // 关联关系
   Instance.associate = () => {
-    app.model.User.hasMany(app.model.Blog);
+    app.model.Tag.belongsToMany(app.model.Blog, {
+      through: 'blog_tag'
+    });
   };
 
   return Instance;

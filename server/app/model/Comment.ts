@@ -1,25 +1,39 @@
 import { Application } from 'egg';
 
-module.exports = (app: Application) => {
-  const { STRING, INTEGER } = app.Sequelize;
-  /**
-   * 评论表
-   */
-  const Instance = app.model.define('comment', {
-    // ID
-    id: {
-      type: INTEGER,
-      primaryKey: true,
-      autoIncrement: true
-    },
+import * as sequelize from 'sequelize';
+
+interface TypeModelAttributes {
+  blog_id?: number;
+  markdown_content: string;
+  content?: string;
+  state: string;
+  post_user_id: number;
+  receive_user_id: number;
+  parent_id?: number;
+  receive_id: number;
+}
+
+type TypeModelInstance = sequelize.Instance<TypeModelAttributes> & TypeModelAttributes;
+
+type TypeModeleModel = sequelize.Model<TypeModelInstance, TypeModelAttributes>;
+
+const initModel = (app: Application): TypeModeleModel => {
+  const { INTEGER, TEXT } = app.Sequelize;
+  const attributes: SequelizeAttributes<TypeModelAttributes> = {
     // 日记ID
     blog_id: {
       type: INTEGER,
       allowNull: false
     },
     // 内容
+    markdown_content: {
+      type: TEXT,
+      allowNull: false,
+      validate: {}
+    },
+    // 内容
     content: {
-      type: STRING,
+      type: TEXT,
       allowNull: false,
       validate: {}
     },
@@ -49,7 +63,18 @@ module.exports = (app: Application) => {
       type: INTEGER,
       allowNull: false
     }
-  });
+  };
+
+  /**
+   * 评论表
+   */
+  const Instance = app.model.define<TypeModelInstance, TypeModelAttributes>('comment', attributes);
+
+  // 关联关系
+  Instance.associate = () => {
+  };
 
   return Instance;
 };
+
+export default initModel;

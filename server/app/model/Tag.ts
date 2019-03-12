@@ -2,18 +2,18 @@ import { Application } from 'egg';
 
 import * as sequelize from 'sequelize';
 
-interface TypeTagAttributes {
+interface TypeModelAttributes {
   id?: number;
   name: string;
 }
 
-type TypeTagInstance = sequelize.Instance<TypeTagAttributes> & TypeTagAttributes;
+type TypeModelInstance = sequelize.Instance<TypeModelAttributes> & TypeModelAttributes;
 
-type TypeTageModel = sequelize.Model<TypeTagInstance, TypeTagAttributes>;
+type TypeModeleModel = sequelize.Model<TypeModelInstance, TypeModelAttributes>;
 
-const initModel = (app: Application): TypeTageModel => {
+const initModel = (app: Application): TypeModeleModel => {
   const { STRING, INTEGER } = app.Sequelize;
-  const attributes: SequelizeAttributes<TypeTagAttributes> = {
+  const attributes: SequelizeAttributes<TypeModelAttributes> = {
     // ID
     id: {
       type: INTEGER,
@@ -30,12 +30,17 @@ const initModel = (app: Application): TypeTageModel => {
   /**
    * 标签表
    */
-  const Instance = app.model.define<TypeTagInstance, TypeTagAttributes>('tag', attributes);
+  const Instance = app.model.define<TypeModelInstance, TypeModelAttributes>('tag', attributes);
 
   // 关联关系
   Instance.associate = () => {
     app.model.Tag.belongsToMany(app.model.Blog, {
-      through: 'blog_tag'
+      through: {
+        model: app.model.BlogAndTag,
+        unique: false
+      },
+      foreignKey: 'tag_id',
+      constraints: false
     });
   };
 

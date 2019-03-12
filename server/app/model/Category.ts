@@ -1,11 +1,19 @@
 import { Application } from 'egg';
 
-module.exports = (app: Application) => {
+import * as sequelize from 'sequelize';
+
+interface TypeModelAttributes {
+  id?: number;
+  name: string;
+}
+
+type TypeModelInstance = sequelize.Instance<TypeModelAttributes> & TypeModelAttributes;
+
+type TypeModeleModel = sequelize.Model<TypeModelInstance, TypeModelAttributes>;
+
+const initModel = (app: Application): TypeModeleModel => {
   const { STRING, INTEGER } = app.Sequelize;
-  /**
-   * 类目表
-   */
-  const Instance = app.model.define('category', {
+  const attributes: SequelizeAttributes<TypeModelAttributes> = {
     // ID
     id: {
       type: INTEGER,
@@ -18,7 +26,12 @@ module.exports = (app: Application) => {
       allowNull: false,
       validate: {}
     }
-  });
+  };
+
+  /**
+   * 类目表
+   */
+  const Instance = app.model.define<TypeModelInstance, TypeModelAttributes>('category', attributes);
 
   // 关联关系
   Instance.associate = () => {
@@ -27,3 +40,5 @@ module.exports = (app: Application) => {
 
   return Instance;
 };
+
+export default initModel;
