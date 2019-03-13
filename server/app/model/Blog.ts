@@ -10,7 +10,14 @@ interface TypeModelAttributes {
   diy_url?: string;
 }
 
-type TypeModelInstance = sequelize.Instance<TypeModelAttributes> & TypeModelAttributes;
+interface TypeModelFixMethod {
+  setCategory: (params: number) => any;
+  setTag: (params: number) => any;
+  setTags: (params: number[]) => any;
+  setUser: (params: number) => any;
+}
+
+type TypeModelInstance = sequelize.Instance<TypeModelAttributes> & TypeModelAttributes & TypeModelFixMethod;
 
 type TypeModeleModel = sequelize.Model<TypeModelInstance, TypeModelAttributes>;
 

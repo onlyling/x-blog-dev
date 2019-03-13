@@ -1,5 +1,21 @@
 import { Service } from 'egg';
 
+import { TypeApiBaseResponse } from '../typings/global';
+
+// 登录的参数约定
+type TypeLoginParams = {
+  user_name: string;
+  password: string;
+};
+
+// 注册的参数约定
+type TypeRegisterParams = {
+  user_name: string;
+  password: string;
+  super_admin?: number;
+  id?: number;
+};
+
 /**
  * User Service
  */
@@ -7,7 +23,7 @@ export default class MainService extends Service {
   /**
    * 用户登录
    */
-  public async PostLogin({ user_name, password }) {
+  public async PostLogin({ user_name, password }: TypeLoginParams): Promise<TypeApiBaseResponse> {
     const { ctx } = this;
     const { helper, model } = ctx;
     const loginErrorMSG = '用户名或密码错误';
@@ -45,7 +61,7 @@ export default class MainService extends Service {
    * 创建用户
    * @param params user_name、password
    */
-  public async PostOne(params) {
+  public async PostOne(params: TypeRegisterParams): Promise<TypeApiBaseResponse> {
     return this.SaveUser(params);
   }
 
@@ -54,7 +70,7 @@ export default class MainService extends Service {
    * @param params user_name、password、super_admin、id
    *
    */
-  public async SaveUser({ user_name = '', password = '', super_admin = 1, id = 0 }) {
+  public async SaveUser({ user_name = '', password = '', super_admin = 1, id = 0 }): Promise<TypeApiBaseResponse> {
     const { ctx } = this;
     const { helper, model } = ctx;
     if (user_name == '') {
@@ -102,6 +118,7 @@ export default class MainService extends Service {
       }
     } else {
       // 编辑
+      return helper.ApiError('TODO');
     }
   }
 }

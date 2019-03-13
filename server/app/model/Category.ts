@@ -35,7 +35,6 @@ const initModel = (app: Application): TypeModeleModel => {
 
   // 关联关系
   Instance.associate = () => {
-    app.model.Category.hasMany(app.model.Blog);
   };
 
   return Instance;
