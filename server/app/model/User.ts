@@ -38,7 +38,10 @@ const initModel = (app: Application): TypeModeleModel => {
     super_admin: {
       type: INTEGER,
       allowNull: false,
-      defaultValue: 1
+      defaultValue: 1,
+      get(this: TypeModelInstance) {
+        return this.getDataValue('super_admin') === 2;
+      }
     }
   };
 

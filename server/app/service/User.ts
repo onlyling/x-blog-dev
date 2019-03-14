@@ -6,6 +6,7 @@ import { TypeApiBaseResponse } from '../typings/global';
 type TypeLoginParams = {
   user_name: string;
   password: string;
+  is_admin?: boolean;
 };
 
 // 注册的参数约定
@@ -23,7 +24,11 @@ export default class MainService extends Service {
   /**
    * 用户登录
    */
-  public async PostLogin({ user_name, password }: TypeLoginParams): Promise<TypeApiBaseResponse> {
+  public async PostLogin({
+    user_name = '',
+    password = '',
+    is_admin = false
+  }: TypeLoginParams): Promise<TypeApiBaseResponse> {
     const { ctx } = this;
     const { helper, model } = ctx;
     const loginErrorMSG = '用户名或密码错误';
@@ -45,6 +50,9 @@ export default class MainService extends Service {
     if (instance) {
       password = helper.doEncryptBySHA1(password);
       if (instance.password === password) {
+        if (is_admin && !instance.get('super_admin')) {
+          return helper.ApiSuccess('用户登录失败，权限不够');
+        }
         // 登录成功
         ctx.session.UserInfo = instance;
 
