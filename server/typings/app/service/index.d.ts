@@ -2,11 +2,11 @@
 // Do not modify this file!!!!!!!!!
 
 import 'egg';
-import ExportBlog from '../../../app/service/Blog';
-import ExportCategory from '../../../app/service/Category';
-import ExportTag from '../../../app/service/Tag';
-import ExportTest from '../../../app/service/Test';
-import ExportUser from '../../../app/service/User';
+import ExportBlog from '../../../app/service/blog';
+import ExportCategory from '../../../app/service/category';
+import ExportTag from '../../../app/service/tag';
+import ExportTest from '../../../app/service/test';
+import ExportUser from '../../../app/service/user';
 
 declare module 'egg' {
   interface IService {

@@ -17,6 +17,7 @@ export default (app: Application) => {
 
   // 标签相关
   router.post(FixApiPath('/tag/one'), controller.api.tag.PostOne);
+  router.get(FixApiPath('/tag/pager'), controller.api.tag.GetPager);
 
   // 类目项目
   router.post(FixApiPath('/category/one'), controller.api.category.PostOne);

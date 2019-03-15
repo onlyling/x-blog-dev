@@ -22,6 +22,6 @@ export default class MainController extends Controller {
     const { ctx } = this;
     const { service } = ctx;
 
-    ctx.body = await service.blog.GetPager();
+    ctx.body = await service.blog.GetPager({});
   }
 }

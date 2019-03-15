@@ -57,9 +57,27 @@ const Marked = (str: string): string => {
   return str;
 };
 
+/**
+ * 格式化 分页数据
+ * @param datas
+ * @param curpage
+ * @param pagesize
+ */
+const formatPagerDate = (datas, curpage: number, pagesize: number) => {
+  curpage = +curpage;
+  return {
+    list: datas.rows,
+    pagesize,
+    curpage,
+    totals: datas.count,
+    pages: Math.ceil(datas.count / pagesize)
+  };
+};
+
 export default {
   ApiSuccess,
   ApiError,
   doEncryptBySHA1,
-  Marked
+  Marked,
+  formatPagerDate
 };

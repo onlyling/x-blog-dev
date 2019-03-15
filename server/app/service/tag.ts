@@ -53,4 +53,29 @@ export default class MainService extends Service {
       }
     }
   }
+
+  /**
+   * GetPager
+   */
+  public async GetPager({ curpage = 1, pagesize = 10, name = '' }): Promise<TypeApiBaseResponse> {
+    const { ctx } = this;
+    const { helper, model, app } = ctx;
+    const { Sequelize } = app;
+
+    const data = await model.Tag.findAndCountAll({
+      where: name
+        ? {
+            name: {
+              [Sequelize.Op.like]: `%${name}%`
+            }
+          }
+        : {},
+      limit: pagesize,
+      offset: (curpage - 1) * pagesize,
+      order: [['created_at', 'DESC']],
+      attributes: { exclude: ['created_at', 'updated_at'] }
+    });
+
+    return helper.ApiSuccess(helper.formatPagerDate(data, curpage, pagesize));
+  }
 }

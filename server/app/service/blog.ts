@@ -115,12 +115,9 @@ export default class MainService extends Service {
   /**
    * GetPager
    */
-  public async GetPager(): Promise<TypeApiBaseResponse> {
+  public async GetPager({ curpage = 1, pagesize = 10 }): Promise<TypeApiBaseResponse> {
     const { ctx } = this;
     const { helper, model } = ctx;
-
-    const curpage = 1;
-    const pagesize = 10;
 
     const data = await model.Blog.findAndCountAll({
       distinct: true,

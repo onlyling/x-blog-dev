@@ -12,4 +12,14 @@ export default class MainController extends Controller {
       name: ctx.request.body.name
     });
   }
+
+  /**
+   * GetPager 标签分页
+   */
+  public async GetPager() {
+    const { ctx } = this;
+    const { service } = ctx;
+
+    ctx.body = await service.tag.GetPager(ctx.request.query);
+  }
 }
