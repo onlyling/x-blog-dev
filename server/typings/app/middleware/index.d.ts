@@ -3,9 +3,11 @@
 
 import 'egg';
 import ExportFormatParams from '../../../app/middleware/formatParams';
+import ExportUserRequired from '../../../app/middleware/userRequired';
 
 declare module 'egg' {
   interface IMiddleware {
     formatParams: typeof ExportFormatParams;
+    userRequired: typeof ExportUserRequired;
   }
 }

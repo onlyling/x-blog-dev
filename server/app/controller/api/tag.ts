@@ -22,4 +22,14 @@ export default class MainController extends Controller {
 
     ctx.body = await service.tag.GetPager(ctx.request.query);
   }
+
+  /**
+   * GetTagRankList 标签使用排行
+   */
+  public async GetTagRankList() {
+    const { ctx } = this;
+    const { service } = ctx;
+
+    ctx.body = await service.tag.GetTagRankList();
+  }
 }

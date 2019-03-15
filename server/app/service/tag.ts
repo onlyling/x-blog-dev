@@ -78,4 +78,30 @@ export default class MainService extends Service {
 
     return helper.ApiSuccess(helper.formatPagerDate(data, curpage, pagesize));
   }
+
+  /**
+   * GetTagRankList
+   */
+  public async GetTagRankList(): Promise<TypeApiBaseResponse> {
+    const { ctx } = this;
+    const { helper, model, app } = ctx;
+    const { Sequelize } = app;
+
+    // TODO 把 tag 的 name 找出来
+    const data = await model.BlogAndTag.findAll({
+      attributes: ['tag_id', [Sequelize.fn('COUNT', Sequelize.col('tag_id')), 'count']],
+      group: 'tag_id',
+      include: [
+        // {
+        //   model: model.Tag,
+        //   attributes: ['name'],
+        //   where: {
+        //     id: Sequelize.col('BlogAndTag.tag_id')
+        //   }
+        // }
+      ]
+    });
+
+    return helper.ApiSuccess(data);
+  }
 }
