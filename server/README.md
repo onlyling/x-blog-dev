@@ -30,6 +30,21 @@ $ npm start
 - Node.js 8.x
 - Typescript 2.8+
 
+## 文件命名
+
+暂时没有规范，按照最后使用的形态命名文件。
+
+> controller、middleware、service 文件加载过程中都是用 `lower` 首字母小写风格。
+>
+> [caseStyle [String]](https://eggjs.org/zh-cn/advanced/loader.html#casestyle-string)
+
+middleware 里面按照驼峰命名的使用，例如 `some_a.ts` 或 `someA.ts` 通过 `someA` 使用。
+
+* controller 字母小写开头的驼峰
+* middleware 字母小写开头的驼峰
+* model 字母大写开头的驼峰
+* service 字母小写开头的驼峰
+
 ## egg-ts-helper 自动添加的申明生效
 
 使用 `export default {}` 的方式向外暴露属性。
