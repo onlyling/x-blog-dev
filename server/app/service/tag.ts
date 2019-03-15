@@ -87,19 +87,22 @@ export default class MainService extends Service {
     const { helper, model, app } = ctx;
     const { Sequelize } = app;
 
-    // TODO 把 tag 的 name 找出来
     const data = await model.BlogAndTag.findAll({
-      attributes: ['tag_id', [Sequelize.fn('COUNT', Sequelize.col('tag_id')), 'count']],
+      attributes: [
+        'tag_id',
+        // TODO Sequelize.fn 怎么使用的？？？
+        [Sequelize.fn('', Sequelize.col('tag.name')), 'tag_name'],
+        [Sequelize.fn('COUNT', Sequelize.col('tag_id')), 'count']
+      ],
       group: 'tag_id',
       include: [
-        // {
-        //   model: model.Tag,
-        //   attributes: ['name'],
-        //   where: {
-        //     id: Sequelize.col('BlogAndTag.tag_id')
-        //   }
-        // }
-      ]
+        {
+          model: model.Tag,
+          attributes: [],
+          as: 'tag'
+        }
+      ],
+      order: [[Sequelize.fn('COUNT', Sequelize.col('tag_id')), 'DESC']]
     });
 
     return helper.ApiSuccess(data);

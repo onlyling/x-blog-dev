@@ -34,8 +34,10 @@ const initModel = (app: Application): TypeModeleModel => {
 
   // 关联关系
   Instance.associate = () => {
-    app.model.Tag.belongsToMany(app.model.Blog, {
-      through: 'blog_tag'
+    app.model.BlogAndTag.belongsTo(app.model.Tag, {
+      as: 'tag',
+      foreignKey: 'tag_id',
+      constraints: false
     });
   };
 

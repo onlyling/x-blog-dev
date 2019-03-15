@@ -140,7 +140,10 @@ export default class MainService extends Service {
         {
           model: model.Tag,
           as: 'tags',
-          attributes: ['id', 'name']
+          attributes: ['id', 'name'],
+          through: {
+            attributes: ['blog_and_tag']
+          }
         }
       ]
     });
