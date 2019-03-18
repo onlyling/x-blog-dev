@@ -51,7 +51,9 @@ middleware 里面按照驼峰命名的使用，例如 `some_a.ts` 或 `someA.ts`
 
 如果 `exports const a = () => {}` 这样的形式，虽然不会报错，但编辑器不会有提示。
 
-## sequelize model 规范定义
+## Sequelize model 规范定义
+
+Sequelize 的迁移可以参考 [Sequelize 更新数据库表字段](https://www.onlyling.com/archives/412);
 
 ```typescript
 import { Application } from 'egg';
