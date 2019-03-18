@@ -21,6 +21,7 @@ export default (app: Application) => {
   router.post(FixApiPath('/tag/one'), userRequired, controller.api.tag.PostOne);
   router.get(FixApiPath('/tag/pager'), controller.api.tag.GetPager);
   router.get(FixApiPath('/tag/rank'), controller.api.tag.GetTagRankList);
+  router.get(FixApiPath('/tag/blog-pager'), controller.api.tag.GetTagAndBlogPager);
 
   // 类目项目
   router.post(FixApiPath('/category/one'), controller.api.category.PostOne);

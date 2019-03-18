@@ -32,4 +32,14 @@ export default class MainController extends Controller {
 
     ctx.body = await service.tag.GetTagRankList();
   }
+
+  /**
+   * GetTagAndBlogPager
+   */
+  public async GetTagAndBlogPager() {
+    const { ctx } = this;
+    const { service } = ctx;
+
+    ctx.body = await service.tag.GetTagAndBlogPager(ctx.request.query);
+  }
 }

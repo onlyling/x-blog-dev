@@ -39,6 +39,11 @@ const initModel = (app: Application): TypeModeleModel => {
       foreignKey: 'tag_id',
       constraints: false
     });
+    app.model.BlogAndTag.belongsTo(app.model.Blog, {
+      as: 'blog',
+      foreignKey: 'blog_id',
+      constraints: false
+    });
   };
 
   return Instance;

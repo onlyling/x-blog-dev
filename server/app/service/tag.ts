@@ -1,11 +1,18 @@
 import { Service } from 'egg';
 
 import { TypeApiBaseResponse } from '../typings/global';
+// import { TypeTagModelAttributes } from '../typings/model';
 
+// 新增参数
 type TypeTagParams = {
   id?: number;
   name: string;
 };
+
+// 修复连表查询
+interface TypeFixFindAndCounts {
+  count: number;
+}
 
 /**
  * Tag Service
@@ -106,5 +113,100 @@ export default class MainService extends Service {
     });
 
     return helper.ApiSuccess(data);
+  }
+
+  /**
+   * GetTagAndBlogPager
+   */
+  public async GetTagAndBlogPager({ curpage = 1, pagesize = 10, name = '' }): Promise<TypeApiBaseResponse> {
+    const { ctx } = this;
+    const { helper, model, app } = ctx;
+    const { Sequelize } = app;
+
+    const tagInsatnces = await model.Tag.findAll({
+      where: {
+        name: {
+          [Sequelize.Op.like]: `%${name}%`
+        }
+      },
+      raw: true
+    });
+
+    const tagIds = tagInsatnces.map((i) => {
+      return i.id;
+    });
+
+    if (tagIds.length === 0) {
+      return helper.ApiSuccess(
+        helper.formatPagerDate(
+          {
+            rows: [],
+            count: 0
+          },
+          curpage,
+          pagesize
+        )
+      );
+    }
+
+    // TODO count 并没有踢重
+    const tagAndBlogInstances = await model.BlogAndTag.findAndCountAll({
+      where: {
+        tag_id: {
+          [Sequelize.Op.or]: tagIds
+        }
+      },
+      limit: pagesize,
+      offset: (curpage - 1) * pagesize,
+      group: 'blog_id',
+      order: [['created_at', 'DESC']],
+      include: [
+        {
+          model: model.Tag,
+          as: 'tag'
+        },
+        {
+          model: model.Blog,
+          as: 'blog',
+          include: [
+            {
+              model: model.Category,
+              as: 'category',
+              attributes: ['id', 'name']
+            },
+            {
+              model: model.User,
+              as: 'user',
+              attributes: ['id', 'user_name']
+            }
+            // TODO fix some error
+            // {
+            //   model: model.Tag,
+            //   as: 'tags',
+            //   attributes: ['id', 'name'],
+            //   through: {
+            //     attributes: ['blog_and_tag']
+            //   }
+            // }
+          ]
+        }
+      ]
+    });
+
+    // some questions
+    // https://github.com/sequelize/sequelize/issues/9109
+    const count = tagAndBlogInstances.count as any;
+
+    return helper.ApiSuccess(
+      helper.formatPagerDate(
+        Object.assign(tagAndBlogInstances, {
+          count: count.reduce((accumulator, cV: TypeFixFindAndCounts) => {
+            return accumulator + cV.count;
+          }, 0)
+        }),
+        curpage,
+        pagesize
+      )
+    );
   }
 }

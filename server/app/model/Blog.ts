@@ -8,6 +8,9 @@ interface TypeModelAttributes {
   content?: string;
   markdown_content: string;
   diy_url?: string;
+  user_id?: number;
+  category_id?: number;
+  visit_count?: number;
 }
 
 interface TypeModelFixMethod {
@@ -53,6 +56,12 @@ const initModel = (app: Application): TypeModeleModel => {
       type: STRING,
       allowNull: true,
       validate: {}
+    },
+    visit_count: {
+      type: STRING,
+      allowNull: true,
+      validate: {},
+      defaultValue: 0
     }
   };
   /**
@@ -63,10 +72,12 @@ const initModel = (app: Application): TypeModeleModel => {
   // 关联关系
   Instance.associate = () => {
     app.model.Blog.belongsTo(app.model.Category, {
-      as: 'category'
+      as: 'category',
+      foreignKey: 'category_id'
     });
     app.model.Blog.belongsTo(app.model.User, {
-      as: 'user'
+      as: 'user',
+      foreignKey: 'user_id'
     });
     app.model.Blog.belongsToMany(app.model.Tag, {
       through: {

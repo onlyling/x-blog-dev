@@ -14,6 +14,7 @@ server/*.lock
 server/*.js
 server/!.autod.conf.js
 
+server/database
 server/app/**/*.js
 server/test/**/*.js
 server/config/**/*.js
