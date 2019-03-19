@@ -21,3 +21,11 @@ server/config/**/*.js
 server/app/**/*.map
 server/test/**/*.map
 server/config/**/*.map
+
+
+client/node_modules
+client/.pnp
+client/.pnp.js
+client/coverage
+client/build
+
