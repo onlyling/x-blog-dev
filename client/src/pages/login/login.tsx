@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
+import { RouteComponentProps } from 'react-router-dom';
 
-class Node extends Component {
+import LoginRegister from '../../components/login-register/login-register';
+
+class Node extends Component<RouteComponentProps> {
   render() {
-    return <div>login</div>;
+    return <LoginRegister title="登录" isLogin />;
   }
 }
 
