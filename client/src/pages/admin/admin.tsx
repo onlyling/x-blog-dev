@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { RouteComponentProps } from 'react-router';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, RouteComponentProps } from 'react-router-dom';
 import Loadable from 'react-loadable';
 
 import LayoutAdmin from '../../layouts/layout-admin/layout-admin';
 import LoadingComponent from '../../components/page-loading/page-loading';
 import Page404 from '../../components/404/404';
+
+import { getRootPath } from '../../utils';
 
 const PageUserList = Loadable({
   loader: () => import('./user-list/user-list'),
@@ -20,7 +21,8 @@ const PageBlogList = Loadable({
 class Node extends Component<RouteComponentProps, object> {
   render() {
     const { match } = this.props;
-    const RootPath = match.path;
+    const RootPath = getRootPath(match.path);
+
     return (
       <LayoutAdmin>
         <Switch>

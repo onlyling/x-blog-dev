@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { RouteComponentProps } from 'react-router';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, RouteComponentProps } from 'react-router-dom';
 import Loadable from 'react-loadable';
 
 import LayoutHome from '../../layouts/layout-home/layout-home';
 import LoadingComponent from '../../components/page-loading/page-loading';
 import Page404 from '../../components/404/404';
+
+import { getRootPath } from '../../utils';
 
 const PageHome = Loadable({
   loader: () => import('./home/home'),
@@ -20,12 +21,13 @@ const PageUserCenter = Loadable({
 class Node extends Component<RouteComponentProps, object> {
   render() {
     const { match } = this.props;
-    const RootPath = match.path;
+    const RootPath = getRootPath(match.path);
+
     return (
       <LayoutHome>
         <Switch>
-          <Route exact path={`${RootPath}`} component={PageHome} />
-          <Route exact path={`${RootPath}user/:id`} component={PageUserCenter} />
+          <Route exact path={`${RootPath}/`} component={PageHome} />
+          <Route exact path={`${RootPath}/user/:id`} component={PageUserCenter} />
           <Route component={Page404} />
         </Switch>
       </LayoutHome>
