@@ -20,11 +20,11 @@ const PageUserCenter = Loadable({
 
 class Node extends Component<RouteComponentProps, object> {
   render() {
-    const { match } = this.props;
+    const { match, location } = this.props;
     const RootPath = getRootPath(match.path);
 
     return (
-      <LayoutHome>
+      <LayoutHome location={location}>
         <Switch>
           <Route exact path={`${RootPath}/`} component={PageHome} />
           <Route exact path={`${RootPath}/user/:id`} component={PageUserCenter} />
