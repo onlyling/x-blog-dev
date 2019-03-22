@@ -7,7 +7,7 @@ import * as H from 'history';
 
 import Styles from './layout-home.module.less';
 
-const { Sider, Content } = Layout;
+const { Content } = Layout;
 
 // props
 interface TypeNodeProps {
@@ -95,6 +95,7 @@ class Node extends Component<TypeNodeProps> {
   getFooter = () => {
     return (
       <Fragment>
+        <br />
         <p className="text-center">&copy; 2019 - x-blog-dev</p>
         <p className="text-center">
           Powered by <a href="https://github.com/onlyling/x-blog-dev">x-blog-dev</a>
@@ -107,11 +108,11 @@ class Node extends Component<TypeNodeProps> {
     const { children } = this.props;
 
     return (
-      <Layout className="app-box">
-        <Sider className={Styles['sider']}>
+      <Fragment>
+        <div className={Styles['sider']}>
           {this.getAvatarInfo()}
           {this.getSiderLinks()}
-        </Sider>
+        </div>
 
         <Layout className={Styles['content-box']}>
           <Content className={Styles['content']}>
@@ -119,7 +120,7 @@ class Node extends Component<TypeNodeProps> {
             {this.getFooter()}
           </Content>
         </Layout>
-      </Layout>
+      </Fragment>
     );
   }
 }
