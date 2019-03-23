@@ -56,7 +56,7 @@ export default class MainService extends Service {
         // 登录成功
         ctx.session.UserInfo = instance;
 
-        return helper.ApiSuccess('用户登录成功');
+        return helper.ApiSuccess(instance);
       } else {
         return helper.ApiError(loginErrorMSG);
       }

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Layout } from 'antd';
 
 import * as H from 'history';
+import { TypeUserModel } from '../../types/model';
 
 import Styles from './layout-home.module.less';
 
@@ -12,6 +13,7 @@ const { Content } = Layout;
 // props
 interface TypeNodeProps {
   location: H.Location;
+  UserInfo: TypeUserModel;
 }
 
 // 链接的类型
@@ -23,6 +25,8 @@ type TypeSiderLink = {
 class Node extends Component<TypeNodeProps> {
   // 构建侧边栏链接
   getSiderLinks = () => {
+    const { UserInfo } = this.props;
+
     let baseLink: TypeSiderLink[] = [
       {
         text: '首页',
@@ -30,7 +34,7 @@ class Node extends Component<TypeNodeProps> {
       }
     ];
 
-    if (false) {
+    if (!!!UserInfo.id) {
       baseLink = baseLink.concat([
         {
           text: '登录',

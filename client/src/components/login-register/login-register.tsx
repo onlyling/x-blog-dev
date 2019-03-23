@@ -1,34 +1,66 @@
 import React, { PureComponent } from 'react';
-import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { Link, Redirect } from 'react-router-dom';
 
 import { Typography, Form, Icon, Input, Button } from 'antd';
 
 import { FormComponentProps } from 'antd/lib/form/Form';
+import { iRootState, Dispatch } from '../../store';
 
 import Styles from './login-register.module.less';
 
 const FormItem = Form.Item;
 
-interface TypeProps extends FormComponentProps {
+const mapStateToProps = ({ User }: iRootState) => ({
+  UserInfo: User.UserInfo
+});
+
+const mapDispatchToProps = ({ User }: any) => ({
+  PostLogin: User.PostLogin
+});
+
+const initState = {
+  fetching: false
+};
+
+interface NodeProps extends FormComponentProps {
   title: string;
   isLogin?: boolean;
 }
 
-class Node extends PureComponent<TypeProps> {
+type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps> & NodeProps;
+
+class Node extends PureComponent<Props, typeof initState> {
+  constructor(props: Props) {
+    super(props);
+    this.state = initState;
+  }
+
   handlerSubmit = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
-    const { form } = this.props;
+    const { form, PostLogin, isLogin } = this.props;
 
-    form.validateFields((err, values) => {
+    form.validateFields(async (err, values) => {
       if (!err) {
+        this.setState({ fetching: true });
+
         console.log('Received values of form: ', values);
+
+        const doFetch = isLogin ? PostLogin : PostLogin;
+        await doFetch(values);
+
+        this.setState({ fetching: false });
       }
     });
   };
 
   render() {
-    const { title, isLogin, form } = this.props;
+    const { fetching } = this.state;
+    const { title, isLogin, form, UserInfo } = this.props;
     const { getFieldDecorator } = form;
+    if (UserInfo.id) {
+      return <Redirect to="/" />;
+    }
     return (
       <div className={Styles['form-box']}>
         <Form onSubmit={this.handlerSubmit}>
@@ -49,7 +81,7 @@ class Node extends PureComponent<TypeProps> {
           </FormItem>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit" block>
+            <Button type="primary" htmlType="submit" block disabled={fetching}>
               {!isLogin ? '注册' : '登录'}
             </Button>
           </Form.Item>
@@ -68,4 +100,7 @@ class Node extends PureComponent<TypeProps> {
   }
 }
 
-export default Form.create()(Node);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Form.create()(Node));

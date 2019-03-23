@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Switch, Route, RouteComponentProps } from 'react-router-dom';
+import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
 
 import LayoutHome from '../../layouts/layout-home/layout-home';
@@ -7,6 +8,8 @@ import LoadingComponent from '../../components/page-loading/page-loading';
 import Page404 from '../../components/404/404';
 
 import { getRootPath } from '../../utils';
+
+import { iRootState, Dispatch } from '../../store';
 
 // 首页
 const PageHome = Loadable({
@@ -20,18 +23,31 @@ const PageUserCenter = Loadable({
   loading: LoadingComponent
 });
 
+// 日记
 const PageBlog = Loadable({
   loader: () => import('./blog/blog'),
   loading: LoadingComponent
 });
 
-class Node extends Component<RouteComponentProps, object> {
+const mapStateToProps = ({ User }: iRootState) => ({
+  UserInfo: User.UserInfo
+});
+
+const mapDispatchToProps = ({  }: Dispatch) => ({});
+
+type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps> & RouteComponentProps;
+
+@(connect(
+  mapStateToProps,
+  mapDispatchToProps
+) as any)
+class Node extends Component<Props, object> {
   render() {
-    const { match, location } = this.props;
+    const { match, location, UserInfo } = this.props;
     const RootPath = getRootPath(match.path);
 
     return (
-      <LayoutHome location={location}>
+      <LayoutHome location={location} UserInfo={UserInfo}>
         <Switch>
           <Route exact path={`${RootPath}/`} component={PageHome} />
           <Route exact path={`${RootPath}/category/:id`} component={PageHome} />

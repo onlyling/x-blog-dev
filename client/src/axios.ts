@@ -1,7 +1,8 @@
 import Axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import { message } from 'antd';
 
 // 接口前缀
-const BASE_URL = '/api/v1';
+const BASE_URL = '';
 
 // axios 配置实例
 const getAxiosInstance = (): AxiosInstance => {
@@ -29,7 +30,7 @@ const getAxiosInstance = (): AxiosInstance => {
       console.log('-- error --');
       console.log(error);
       console.log('-- error --');
-      return Promise.reject({
+      return Promise.resolve({
         success: false,
         msg: error
       });
@@ -39,10 +40,10 @@ const getAxiosInstance = (): AxiosInstance => {
 };
 
 // 基本返回数据格式
-interface BaseResponse<T> {
+export interface BaseResponse<T> {
   success: boolean;
   data: T;
-  message?: string;
+  msg?: string;
 }
 
 // 基本 Ajax 格式
@@ -66,8 +67,9 @@ const GetAxios = () => {
         if (__data.success) {
           resolve(__data);
         } else {
-          console.log(__data.message);
-          reject(__data);
+          console.log(__data.msg);
+          message.error(__data.msg);
+          resolve(__data);
         }
       });
     });
