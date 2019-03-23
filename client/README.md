@@ -1,44 +1,54 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
+## `npm run dev`
 
 Runs the app in the development mode.<br>
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+## Rematch 问题汇总
 
-### `npm test`
+### mapDispatchToProps
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+在路由级组件中使用过 connect 注入属性，可以如下使用，不会报错。
 
-### `npm run build`
+```typescript
+const mapDispatchToProps = ({ User }: Dispatch) => {
+  return {
+    PostLogin: User.PostLogin
+  };
+};
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+@(connect(
+  mapStateToProps,
+  mapDispatchToProps
+) as any)
+class Node extends Component<Props, object> {}
+```
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+只是一个组件的时候，需要额外注意，不能使用装饰器，`mapDispatchToProps` 也要适配一下。
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```typescript
+const mapDispatchToProps = (Dispatch: any) => {
+  const { User } = Dispatch as Dispatch;
+  return {
+    PostLogin: User.PostLogin
+  };
+};
 
-### `npm run eject`
+class Node extends Component<Props, object> {}
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Node)
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+这个问题花了大半天的时间。
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Effects return values
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+在 JavaScript 环境中，Effects 可以直接返回一个 Promise 对象，TypeScript 貌似暂时不能。
 
-## Learn More
+[How to use Rematch Type definitions for Effects that return values?](https://github.com/rematch/rematch/issues/609)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+这个问题有点麻烦。
