@@ -148,6 +148,6 @@ export default class MainService extends Service {
       ]
     });
 
-    return helper.ApiSuccess(data);
+    return helper.ApiSuccess(helper.formatPagerDate(data, curpage, pagesize));
   }
 }
