@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Redirect, withRouter, RouteComponentProps } from 'react-router-dom';
 
-import { Typography, Form, Icon, Input, Button } from 'antd';
+import { Typography, Form, Icon, Input, Button, message } from 'antd';
+import { PostLogin, PostRegister } from '../../api/user';
 
 import { FormComponentProps } from 'antd/lib/form/Form';
 import { iRootState, Dispatch } from '../../store';
@@ -11,45 +12,65 @@ import Styles from './login-register.module.less';
 
 const FormItem = Form.Item;
 
+/**
+ * 获取文案
+ * @param isLogin
+ */
+const getCopywriter = (isLogin: boolean | undefined): string => {
+  return isLogin ? '登录' : '注册';
+};
+
 const mapStateToProps = ({ User }: iRootState) => ({
   UserInfo: User.UserInfo
 });
 
-const mapDispatchToProps = ({ User }: any) => ({
-  PostLogin: User.PostLogin
-});
+const mapDispatchToProps = (Dispatch: any) => {
+  const { User } = Dispatch as Dispatch;
+  return {
+    UpdateUserInfo: User.UpdateUserInfo
+  };
+};
 
 const initState = {
   fetching: false
 };
 
-interface NodeProps extends FormComponentProps {
+interface NodeProps {
   title: string;
   isLogin?: boolean;
 }
 
-type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps> & NodeProps;
+type Props = ReturnType<typeof mapStateToProps> &
+  ReturnType<typeof mapDispatchToProps> &
+  NodeProps &
+  RouteComponentProps &
+  FormComponentProps;
 
 class Node extends PureComponent<Props, typeof initState> {
   constructor(props: Props) {
     super(props);
     this.state = initState;
   }
-
+  // 登录
   handlerSubmit = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
-    const { form, PostLogin, isLogin } = this.props;
+    const { form, UpdateUserInfo, isLogin, history } = this.props;
 
     form.validateFields(async (err, values) => {
       if (!err) {
         this.setState({ fetching: true });
-
-        console.log('Received values of form: ', values);
-
-        const doFetch = isLogin ? PostLogin : PostLogin;
-        await doFetch(values);
+        const doFetch = isLogin ? PostLogin : PostRegister;
+        const data = await doFetch(values);
 
         this.setState({ fetching: false });
+
+        if (data.success) {
+          message.success(`成功${getCopywriter(isLogin)}`);
+          // 更新当前登录人信息
+          UpdateUserInfo(data.data);
+          // 跳转页面
+          history.push('/');
+        }
       }
     });
   };
@@ -58,9 +79,10 @@ class Node extends PureComponent<Props, typeof initState> {
     const { fetching } = this.state;
     const { title, isLogin, form, UserInfo } = this.props;
     const { getFieldDecorator } = form;
-    if (UserInfo.id) {
+    if (UserInfo.id && isLogin) {
       return <Redirect to="/" />;
     }
+
     return (
       <div className={Styles['form-box']}>
         <Form onSubmit={this.handlerSubmit}>
@@ -82,7 +104,7 @@ class Node extends PureComponent<Props, typeof initState> {
 
           <Form.Item>
             <Button type="primary" htmlType="submit" block disabled={fetching}>
-              {!isLogin ? '注册' : '登录'}
+              {getCopywriter(isLogin)}
             </Button>
           </Form.Item>
 
@@ -91,7 +113,7 @@ class Node extends PureComponent<Props, typeof initState> {
               返回首页
             </Link>
             <Link className="pull-right" to={isLogin ? '/register' : '/login'}>
-              立即{isLogin ? '注册' : '登录'}
+              立即{getCopywriter(!isLogin)}
             </Link>
           </p>
         </Form>
@@ -100,7 +122,9 @@ class Node extends PureComponent<Props, typeof initState> {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Form.create()(Node));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Form.create()(Node))
+);

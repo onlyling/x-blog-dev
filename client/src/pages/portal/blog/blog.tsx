@@ -6,7 +6,7 @@ class Node extends Component {
   render() {
     return (
       <div>
-        <BlogItem isFull />
+        {/* <BlogItem isFull /> */}
       </div>
     );
   }

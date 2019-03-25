@@ -1,11 +1,14 @@
 import React, { PureComponent, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 
+import { TypeBlogModel } from '../../types/model';
+
 import './github-markdown.css';
 import Styles from './blog-item.module.less';
 
 interface TypeProps {
   isFull?: boolean;
+  blog: TypeBlogModel;
 }
 
 const TEST_HTML = `
@@ -41,23 +44,32 @@ LoadJSSDK();</code></pre><h2 id="-">使用示例</h2><blockquote><p>编辑模式
 
 class Node extends PureComponent<TypeProps> {
   render() {
-    const { isFull } = this.props;
+    const { isFull, blog } = this.props;
+    const blogUrl = `/blog/${blog.id}`;
+
     return (
       <article className={Styles['article']}>
         <h2 className={Styles['title']}>
-          <Link to="/blog/12" className={Styles['title-link']}>
-            这里是什么什么什么什么我也不清楚了
+          <Link to={blogUrl} className={Styles['title-link']}>
+            {blog.title}
           </Link>
         </h2>
 
         <p className={Styles['time']}>
-          <span className={Styles['item']}>2011-11-11 11:11:11</span>
+          <span className={Styles['item']}>{blog.created_at}</span>
           <span className={Styles['item']}>
-            <Link to="/category/1">分类一</Link>
+            <Link to={`/category/${blog.category_id}`}>{blog.category.name}</Link>
           </span>
 
           <span className={Styles['item']}>
-            <Link to="/tag/1">标签一</Link>,<Link to="/tag/2">标签二</Link>
+            {blog.tags.map((item, i) => {
+              return (
+                <Fragment key={item.id}>
+                  {i != 0 ? ', ' : ''}
+                  <Link to={`/tag/${item.id}`}>{item.name}</Link>
+                </Fragment>
+              );
+            })}
           </span>
         </p>
 
@@ -65,11 +77,9 @@ class Node extends PureComponent<TypeProps> {
           <div className="markdown-body" dangerouslySetInnerHTML={{ __html: TEST_HTML }} />
         ) : (
           <Fragment>
+            <p>{blog.content}</p>
             <p>
-              这里是什么什么什么什么我也不清楚了这里是什么什么什么什么我也不清楚了这里是什么什么什么什么我也不清楚了这里是什么什么什么什么我也不清楚了这里是什么什么什么什么我也不清楚了这里是什么什么什么什么我也不清楚了这里是什么什么什么什么我也不清楚了这里是什么什么什么什么我也不清楚了
-            </p>
-            <p>
-              <Link to="/blog/12">继续阅读</Link>
+              <Link to={blogUrl}>继续阅读</Link>
             </p>
           </Fragment>
         )}
