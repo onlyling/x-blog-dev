@@ -29,4 +29,5 @@ export default (app: Application) => {
   // 日记项目
   router.post(FixApiPath('/blog/one'), userRequired, controller.api.blog.PostOne);
   router.get(FixApiPath('/blog/pager'), controller.api.blog.GetPager);
+  router.get(FixApiPath('/blog/one'), controller.api.blog.GetOne);
 };

@@ -1,6 +1,9 @@
-import { Ajax, BaseResponse } from '../axios';
-import { TypeBlogPagerModel } from '../types/model';
+import { Ajax } from '../axios';
 
-export const GetBlogPager = (params: any): Promise<BaseResponse<TypeBlogPagerModel>> => {
-  return Ajax.get('/api/blog/pager', params);
+import * as TypeModel from '../types/model';
+
+export const GetBlogPager = (params: any) => {
+  return Ajax.get<TypeModel.TypeBlogPagerModel>('/api/blog/pager', {
+    params
+  });
 };

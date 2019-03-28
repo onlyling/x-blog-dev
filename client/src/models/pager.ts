@@ -1,27 +1,28 @@
 import { createModel } from '@rematch/core';
-import { GetBlogPager } from '../api/pager';
+import * as ApiPager from '../api/pager';
+import * as ApiBlog from '../api/blog';
 
-import { TypeBlogPagerModel, TypeBlogModel } from '../types/model';
+import * as TypeModel from '../types/model';
 import { BaseResponse } from '../axios';
 
 // Pager 基本 State
 interface TypePagerState {
   isFetching: boolean;
   type: string;
-  BlogPager: TypeBlogPagerModel;
+  BlogPager: TypeModel.TypeBlogPagerModel;
+  CurBlog: TypeModel.TypeBlogModel;
 }
 
 // 总共有多少个pager
 type TypePagerSets = '' | 'BlogPager';
-
-// 日记默认数据
-const initBlogPager = {} as TypeBlogPagerModel;
+type TypeCurSets = '' | 'CurBlog';
 
 // Pager 初始化 State
 const initState: TypePagerState = {
   isFetching: false,
   type: '',
-  BlogPager: initBlogPager
+  BlogPager: {} as TypeModel.TypeBlogPagerModel,
+  CurBlog: {} as TypeModel.TypeBlogModel
 };
 
 // GetPager 的 params
@@ -41,6 +42,17 @@ type TypePagerType = {
 type TypeUpdatePagerParams = {
   type: TypePagerType;
   data: object;
+};
+
+// 更新 cur 的参数
+type TypeUpdateCurParams = {
+  type: TypeCurSets;
+  data: object;
+};
+
+type TypeUpdateSomeCurParams = {
+  type: TypeCurSets;
+  params: any;
 };
 
 /**
@@ -76,7 +88,7 @@ export default createModel({
         type: getPagerType(payload)
       });
     },
-    // 更新pager
+    // 更新 pager
     UpdatePager(state: TypePagerState, { type, data }: TypeUpdatePagerParams): TypePagerState {
       const __curType = getPagerType(type);
       const __type = state['type'];
@@ -88,6 +100,12 @@ export default createModel({
       } else {
         return state;
       }
+    },
+    // 更新 CurXXX
+    UpdateCur(state: TypePagerState, { type, data }: TypeUpdateCurParams): TypePagerState {
+      return Object.assign({}, state, {
+        [type]: data
+      });
     }
   },
   effects: ({ Pager }) => ({
@@ -114,12 +132,37 @@ export default createModel({
     },
     // 日记分页
     async GetBlogPager(params: any) {
-      const param: TypeGetPagerParams<TypeBlogPagerModel> = {
+      const param: TypeGetPagerParams<TypeModel.TypeBlogPagerModel> = {
         type: 'BlogPager',
-        fn: GetBlogPager,
+        fn: ApiPager.GetBlogPager,
         params: params
       };
       Pager.GetPager(param);
+    },
+    // 某个更新某个详情
+    async UpdateSomeCur({ type, params }: TypeUpdateSomeCurParams) {
+      let ajax;
+      switch (type) {
+        case 'CurBlog':
+          ajax = ApiBlog.GetBlogById;
+          break;
+
+        default:
+          break;
+      }
+      // TODO 先从 pager 里捞数据
+
+      // 拉取更新
+      if (!!!ajax) {
+        return false;
+      }
+      const data = await ajax(params);
+      if (data.success) {
+        Pager.UpdateCur({
+          type,
+          data: data.data
+        });
+      }
     }
   })
 });

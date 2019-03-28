@@ -150,4 +150,48 @@ export default class MainService extends Service {
 
     return helper.ApiSuccess(helper.formatPagerDate(data, curpage, pagesize));
   }
+
+  /**
+   * GetOne
+   */
+  public async GetOne(id: number) {
+    const { ctx } = this;
+    const { helper, model } = ctx;
+    if (!!!id) {
+      return helper.ApiError('id 不存在');
+    }
+
+    const data = await model.Blog.findOne({
+      where: {
+        id
+      },
+      attributes: { exclude: ['diy_url'] },
+      include: [
+        {
+          model: model.Category,
+          as: 'category',
+          attributes: ['id', 'name']
+        },
+        {
+          model: model.User,
+          as: 'user',
+          attributes: ['id', 'user_name']
+        },
+        {
+          model: model.Tag,
+          as: 'tags',
+          attributes: ['id', 'name'],
+          through: {
+            attributes: ['blog_and_tag']
+          }
+        }
+      ]
+    });
+
+    if (data) {
+      return helper.ApiSuccess(data);
+    } else {
+      return helper.ApiError('查询结果不存在');
+    }
+  }
 }

@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import { Link, Redirect, withRouter, RouteComponentProps } from 'react-router-dom';
 
 import { Typography, Form, Icon, Input, Button, message } from 'antd';
-import { PostLogin, PostRegister } from '../../api/user';
+import * as ApiUser from '../../api/user';
 
 import { FormComponentProps } from 'antd/lib/form/Form';
-import { iRootState, Dispatch } from '../../store';
+import * as Store from '../../store';
 
 import Styles from './login-register.module.less';
 
@@ -20,12 +20,12 @@ const getCopywriter = (isLogin: boolean | undefined): string => {
   return isLogin ? '登录' : '注册';
 };
 
-const mapStateToProps = ({ User }: iRootState) => ({
+const mapStateToProps = ({ User }: Store.iRootState) => ({
   UserInfo: User.UserInfo
 });
 
 const mapDispatchToProps = (Dispatch: any) => {
-  const { User } = Dispatch as Dispatch;
+  const { User } = Dispatch as Store.Dispatch;
   return {
     UpdateUserInfo: User.UpdateUserInfo
   };
@@ -59,7 +59,7 @@ class Node extends PureComponent<Props, typeof initState> {
     form.validateFields(async (err, values) => {
       if (!err) {
         this.setState({ fetching: true });
-        const doFetch = isLogin ? PostLogin : PostRegister;
+        const doFetch = isLogin ? ApiUser.PostLogin : ApiUser.PostRegister;
         const data = await doFetch(values);
 
         this.setState({ fetching: false });

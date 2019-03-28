@@ -1,19 +1,19 @@
-import { Ajax, BaseResponse } from '../axios';
+import { Ajax } from '../axios';
 
-import { TypeUserModel } from '../types/model';
+import * as TypeModel from '../types/model';
 
 /**
  * 用户登录
  * @param params
  */
-export const PostLogin = (params: TypeUserModel): Promise<BaseResponse<TypeUserModel>> => {
-  return Ajax.post<TypeUserModel>('/api/user/login', params);
+export const PostLogin = (params: TypeModel.TypeUserModel) => {
+  return Ajax.post<TypeModel.TypeUserModel>('/api/user/login', params);
 };
 
 /**
  * 用户注册
  * @param params
  */
-export const PostRegister = (params: TypeUserModel): Promise<BaseResponse<TypeUserModel>> => {
-  return Ajax.post<TypeUserModel>('/api/user/one', params);
+export const PostRegister = (params: TypeModel.TypeUserModel) => {
+  return Ajax.post<TypeModel.TypeUserModel>('/api/user/one', params);
 }
