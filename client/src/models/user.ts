@@ -25,6 +25,7 @@ export default createModel({
   reducers: {
     // 更新登录人信息
     UpdateUserInfo: function(state: TypeUserState, payload: TypeModel.TypeUserModel): TypeUserState {
+      Utils.PutOldUserInfo(payload);
       return Object.assign({}, state, {
         UserInfo: payload
       });

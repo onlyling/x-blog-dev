@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 
 import { Layout } from 'antd';
 
-import * as H from 'history';
 import { TypeUserModel } from '../../types/model';
 
 import Styles from './layout-home.module.less';
@@ -12,7 +11,6 @@ const { Content } = Layout;
 
 // props
 interface TypeNodeProps {
-  location: H.Location;
   UserInfo: TypeUserModel;
 }
 
@@ -75,15 +73,11 @@ class Node extends Component<TypeNodeProps> {
 
   // 头像信息
   getAvatarInfo = () => {
-    const { pathname } = this.props.location;
-    let avatarInfo = {
-      user_name: '用户名在这里',
+    const avatarInfo = {
+      user_name: '站点名称',
       intro: '一个简单的介绍在这里一个简单的介绍在这里一个简单的介绍在这里一个简单的介绍在这里',
       avatar: 'https://avatars2.githubusercontent.com/u/9999765?s=460&v=4'
     };
-    if (pathname.indexOf('/blog/') === 0) {
-      // TODO 获取用户信息
-    }
 
     return (
       <Fragment>

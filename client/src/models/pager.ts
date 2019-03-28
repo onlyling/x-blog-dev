@@ -3,6 +3,7 @@ import * as ApiPager from '../api/pager';
 import * as ApiBlog from '../api/blog';
 
 import * as TypeModel from '../types/model';
+import * as Store from '../store';
 import { BaseResponse } from '../axios';
 
 // Pager 基本 State
@@ -140,11 +141,20 @@ export default createModel({
       Pager.GetPager(param);
     },
     // 某个更新某个详情
-    async UpdateSomeCur({ type, params }: TypeUpdateSomeCurParams) {
+    async UpdateSomeCur({ type, params }: TypeUpdateSomeCurParams, rootState: Store.iRootState) {
       let ajax;
       switch (type) {
         case 'CurBlog':
           ajax = ApiBlog.GetBlogById;
+          const blogs = (rootState.Pager.BlogPager.list || []).filter((b) => {
+            return b.id == params;
+          });
+          if (blogs.length > 0) {
+            Pager.UpdateCur({
+              type,
+              data: blogs[0]
+            });
+          }
           break;
 
         default:

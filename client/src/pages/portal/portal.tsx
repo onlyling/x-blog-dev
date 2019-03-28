@@ -43,11 +43,11 @@ type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchT
 ) as any)
 class Node extends Component<Props, object> {
   render() {
-    const { match, location, UserInfo } = this.props;
+    const { match, UserInfo } = this.props;
     const RootPath = getRootPath(match.path);
 
     return (
-      <LayoutHome location={location} UserInfo={UserInfo}>
+      <LayoutHome UserInfo={UserInfo}>
         <Switch>
           <Route exact path={`${RootPath}/`} component={PageHome} />
           <Route exact path={`${RootPath}/category/:id`} component={PageHome} />
