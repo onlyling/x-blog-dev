@@ -19,4 +19,13 @@ export default class MainController extends Controller {
 
     ctx.body = await service.user.PostOne(ctx.request.body);
   }
+
+  /**
+   * GetOne
+   */
+  public async GetOne() {
+    const { ctx } = this;
+    const { service } = ctx;
+    ctx.body = await service.user.GetOne(+ctx.request.query.id);
+  }
 }

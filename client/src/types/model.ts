@@ -4,6 +4,13 @@ export interface TypeUserModel {
   user_name: string;
   password?: string;
   super_admin?: boolean;
+  describe?: string;
+  email?: string;
+  company?: string;
+  personal_web?: string;
+  title?: string;
+  tag?: string;
+  location?: string;
 }
 
 // 日记的基础类型

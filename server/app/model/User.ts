@@ -1,5 +1,4 @@
 import { Application } from 'egg';
-
 import * as sequelize from 'sequelize';
 
 interface TypeModelAttributes {
@@ -7,6 +6,13 @@ interface TypeModelAttributes {
   user_name: string;
   password: string;
   super_admin?: number;
+  describe?: string;
+  email?: string;
+  company?: string;
+  personal_web?: string;
+  title?: string;
+  tag?: string;
+  location?: string;
 }
 
 type TypeModelInstance = sequelize.Instance<TypeModelAttributes> & TypeModelAttributes;
@@ -42,6 +48,52 @@ const initModel = (app: Application): TypeModeleModel => {
       get(this: TypeModelInstance) {
         return this.getDataValue('super_admin') === 2;
       }
+    },
+    // 自定义描述
+    describe: {
+      type: STRING,
+      allowNull: true,
+      validate: {}
+    },
+    // 邮箱
+    email: {
+      type: STRING,
+      allowNull: true,
+      validate: {
+        isEmail: true
+      }
+    },
+    // 公司
+    company: {
+      type: STRING,
+      allowNull: true,
+      validate: {}
+    },
+    // 个人站点
+    personal_web: {
+      type: STRING,
+      allowNull: true,
+      validate: {
+        isUrl: true
+      }
+    },
+    // 职位
+    title: {
+      type: STRING,
+      allowNull: true,
+      validate: {}
+    },
+    // 标签
+    tag: {
+      type: STRING,
+      allowNull: true,
+      validate: {}
+    },
+    // 地址
+    location: {
+      type: STRING,
+      allowNull: true,
+      validate: {}
     }
   };
 

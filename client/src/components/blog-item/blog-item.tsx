@@ -1,6 +1,8 @@
 import React, { PureComponent, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 
+import * as Utils from '../../utils';
+
 import { TypeBlogModel } from '../../types/model';
 
 import './github-markdown.css';
@@ -15,6 +17,7 @@ class Node extends PureComponent<TypeProps> {
   render() {
     const { isFull, blog } = this.props;
     const category = blog.category || {};
+    const user = blog.user || {};
     const tags = blog.tags || [];
     const blogUrl = `/blog/${blog.id}`;
 
@@ -27,9 +30,14 @@ class Node extends PureComponent<TypeProps> {
         </h2>
 
         <p className={Styles['time']}>
-          <span className={Styles['item']}>{blog.created_at}</span>
+          <span className={Styles['item']}>{Utils.formatTime(blog.created_at)}</span>
+
           <span className={Styles['item']}>
-            <Link to={`/category/${blog.category_id}`}>{category.name}</Link>
+            by <Link to={`/user/${user.id}`}>{user.user_name}</Link>
+          </span>
+
+          <span className={Styles['item']}>
+          <Link to={`/category/${blog.category_id}`}>{category.name}</Link>
           </span>
 
           <span className={Styles['item']}>

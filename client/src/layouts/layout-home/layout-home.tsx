@@ -43,7 +43,7 @@ class Node extends Component<TypeNodeProps> {
       baseLink = baseLink.concat([
         {
           text: '个人中心',
-          link: '/user/123'
+          link: '/user/' + UserInfo.id
         }
       ]);
       if (true) {

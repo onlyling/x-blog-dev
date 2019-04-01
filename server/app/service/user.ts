@@ -129,4 +129,22 @@ export default class MainService extends Service {
       return helper.ApiError('TODO');
     }
   }
+  /**
+   * GetOne
+   */
+  public async GetOne(id: number) {
+    const { ctx } = this;
+    const { helper, model } = ctx;
+    const data = await model.User.findOne({
+      where: {
+        id
+      }
+    });
+
+    if (data) {
+      return helper.ApiSuccess(data);
+    } else {
+      return helper.ApiError('查询结果不存在');
+    }
+  }
 }

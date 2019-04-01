@@ -9,15 +9,13 @@ import * as Store from '../store';
 // User 基本 State
 interface TypeUserState {
   UserInfo: TypeModel.TypeUserModel;
-  CurUser: TypeModel.TypeUserModel;
 }
 
 export type TypeReturnUserModel = BaseResponse<TypeModel.TypeUserModel>;
 
 // User 初始化 State
 const initState: TypeUserState = {
-  UserInfo: Utils.GetOldUserInfo(),
-  CurUser: {} as TypeModel.TypeUserModel
+  UserInfo: Utils.GetOldUserInfo()
 };
 
 export default createModel({

@@ -1,4 +1,5 @@
 import { TypeUserModel } from './types/model';
+import { type } from 'os';
 
 /**
  * 匹配的路径
@@ -34,4 +35,38 @@ export const GetOldUserInfo = (): TypeUserModel => {
  */
 export const PutOldUserInfo = (user: TypeUserModel): void => {
   localStorage.setItem(USER_INFO_KEY, JSON.stringify(user));
+};
+
+type TypeFormatDate = {
+  [index: string]: any;
+};
+
+/**
+ *
+ * @param t
+ * @param format yyyy-MM-dd hh:mm:ss
+ */
+export const formatTime = (t: string, format = 'yyyy-MM-dd hh:mm:ss') => {
+  const __now = new Date(t);
+  const date: TypeFormatDate = {
+    'M+': __now.getMonth() + 1,
+    'd+': __now.getDate(),
+    'h+': __now.getHours(),
+    'm+': __now.getMinutes(),
+    's+': __now.getSeconds(),
+    'q+': Math.floor((__now.getMonth() + 3) / 3),
+    'S+': __now.getMilliseconds()
+  };
+  if (/(y+)/i.test(format)) {
+    format = format.replace(RegExp.$1, (__now.getFullYear() + '').substr(4 - RegExp.$1.length));
+  }
+  for (var k in date) {
+    if (new RegExp('(' + k + ')').test(format)) {
+      format = format.replace(
+        RegExp.$1,
+        RegExp.$1.length == 1 ? date[k] : ('00' + date[k]).substr(('' + date[k]).length)
+      );
+    }
+  }
+  return format;
 };

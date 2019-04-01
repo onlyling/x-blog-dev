@@ -1,6 +1,7 @@
 import { createModel } from '@rematch/core';
 import * as ApiPager from '../api/pager';
 import * as ApiBlog from '../api/blog';
+import * as ApiUser from '../api/user';
 
 import * as TypeModel from '../types/model';
 import * as Store from '../store';
@@ -12,19 +13,12 @@ interface TypePagerState {
   type: string;
   BlogPager: TypeModel.TypeBlogPagerModel;
   CurBlog: TypeModel.TypeBlogModel;
+  CurUser: TypeModel.TypeUserModel;
 }
 
 // 总共有多少个pager
-type TypePagerSets = '' | 'BlogPager';
-type TypeCurSets = '' | 'CurBlog';
-
-// Pager 初始化 State
-const initState: TypePagerState = {
-  isFetching: false,
-  type: '',
-  BlogPager: {} as TypeModel.TypeBlogPagerModel,
-  CurBlog: {} as TypeModel.TypeBlogModel
-};
+type TypePagerSets = '' | 'BlogPager' | 'UserPager';
+type TypeCurSets = '' | 'CurBlog' | 'CurUser';
 
 // GetPager 的 params
 type TypeGetPagerParams<T = any> = {
@@ -54,6 +48,15 @@ type TypeUpdateCurParams = {
 type TypeUpdateSomeCurParams = {
   type: TypeCurSets;
   params: any;
+};
+
+// Pager 初始化 State
+const initState: TypePagerState = {
+  isFetching: false,
+  type: '',
+  BlogPager: {} as TypeModel.TypeBlogPagerModel,
+  CurBlog: {} as TypeModel.TypeBlogModel,
+  CurUser: {} as TypeModel.TypeUserModel
 };
 
 /**
@@ -155,6 +158,11 @@ export default createModel({
               data: blogs[0]
             });
           }
+          break;
+
+        case 'CurUser':
+          ajax = ApiUser.GetUserInfo;
+          // TODO
           break;
 
         default:

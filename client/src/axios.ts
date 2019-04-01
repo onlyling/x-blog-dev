@@ -29,10 +29,13 @@ const getAxiosInstance = (): AxiosInstance => {
     (error) => {
       console.log('-- error --');
       console.log(error);
+      console.log(error.message);
       console.log('-- error --');
       return Promise.resolve({
-        success: false,
-        msg: error
+        data: {
+          success: false,
+          msg: typeof error === 'string' ? error : error.message
+        }
       });
     }
   );
@@ -63,12 +66,13 @@ const GetAxios = () => {
   const request = <T>(config: AxiosRequestConfig): Promise<BaseResponse<T>> => {
     return new Promise((resolve, reject) => {
       instance.request<BaseResponse<T>>(config).then((data) => {
-        const __data = data.data;
+        const __data = data.data || {};
         if (__data.success) {
           resolve(__data);
         } else {
-          console.log(__data.msg);
-          message.error(__data.msg);
+          if (__data.msg) {
+            message.error(__data.msg);
+          }
           resolve(__data);
         }
       });

@@ -16,4 +16,14 @@ export const PostLogin = (params: TypeModel.TypeUserModel) => {
  */
 export const PostRegister = (params: TypeModel.TypeUserModel) => {
   return Ajax.post<TypeModel.TypeUserModel>('/api/user/one', params);
-}
+};
+
+/**
+ * 通过用户 id 获取详情
+ * @param id
+ */
+export const GetUserInfo = (id: number) => {
+  return Ajax.get<TypeModel.TypeUserModel>('/api/user/one', {
+    params: { id }
+  });
+};

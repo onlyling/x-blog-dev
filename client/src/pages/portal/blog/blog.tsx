@@ -7,7 +7,7 @@ import BlogItem from '../../../components/blog-item/blog-item';
 import { iRootState, Dispatch } from '../../../store';
 
 const mapStateToProps = ({ Pager }: iRootState) => ({
-  Pager: Pager
+  CurBlog: Pager.CurBlog
 });
 
 const mapDispatchToProps = (Dispatch: any) => {
@@ -37,11 +37,12 @@ class Node extends Component<Props> {
       params: props.match.params.id
     });
   }
+
   render() {
-    const { Pager } = this.props;
+    const { CurBlog } = this.props;
     return (
       <div>
-        <BlogItem isFull blog={Pager.CurBlog} />
+        <BlogItem isFull blog={CurBlog} />
       </div>
     );
   }
