@@ -22,7 +22,7 @@ type TypeSiderLink = {
 
 class Node extends Component<TypeNodeProps> {
   // 构建侧边栏链接
-  getSiderLinks = () => {
+  getSiderLinksHTML = () => {
     const { UserInfo } = this.props;
 
     let baseLink: TypeSiderLink[] = [
@@ -72,7 +72,7 @@ class Node extends Component<TypeNodeProps> {
   };
 
   // 头像信息
-  getAvatarInfo = () => {
+  getAvatarInfoHTML = () => {
     const avatarInfo = {
       user_name: '站点名称',
       intro: '一个简单的介绍在这里一个简单的介绍在这里一个简单的介绍在这里一个简单的介绍在这里',
@@ -90,7 +90,7 @@ class Node extends Component<TypeNodeProps> {
     );
   };
 
-  getFooter = () => {
+  getFooterHTML = () => {
     return (
       <Fragment>
         <br />
@@ -108,14 +108,14 @@ class Node extends Component<TypeNodeProps> {
     return (
       <Fragment>
         <div className={Styles['sider']}>
-          {this.getAvatarInfo()}
-          {this.getSiderLinks()}
+          {this.getAvatarInfoHTML()}
+          {this.getSiderLinksHTML()}
         </div>
 
         <Layout className={Styles['content-box']}>
           <Content className={Styles['content']}>
             {children}
-            {this.getFooter()}
+            {this.getFooterHTML()}
           </Content>
         </Layout>
       </Fragment>

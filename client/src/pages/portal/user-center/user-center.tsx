@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Switch, Route, Redirect, RouteComponentProps } from 'react-router-dom';
+import { Switch, Route, Redirect, Link, RouteComponentProps } from 'react-router-dom';
 
 import { Row, Col, Card, Icon, Divider, Tag } from 'antd';
 import * as Utils from '../../../utils';
@@ -11,10 +11,12 @@ import Styles from './user-center.module.less';
 
 import PageArticle from './article';
 
-const mapStateToProps = ({ Pager }: Store.iRootState) => ({
-  CurUser: Pager.CurUser
+const mapStateToProps = ({ Pager, User }: Store.iRootState) => ({
+  CurUser: Pager.CurUser,
+  UserInfo: User.UserInfo
 });
 
+// 建设中
 const PageIng = () => {
   return <div>ing</div>;
 };
@@ -41,7 +43,7 @@ type Props = ReturnType<typeof mapStateToProps> &
   RouteComponentProps<TypeMatchParams>;
 
 // 个人中心可能会有的几个类目
-const operationTabList = [
+const OPERATION_TAB_LIST = [
   {
     key: 'article',
     tab: '文章'
@@ -65,7 +67,6 @@ class Node extends PureComponent<Props, State> {
       type: 'CurUser',
       params: props.match.params.id
     });
-
     this.state = {
       key: props.location.pathname.split('/').reverse()[0]
     };
@@ -80,13 +81,27 @@ class Node extends PureComponent<Props, State> {
         params: match.params.id
       });
     }
+    // 用户中心跳转到文章的时候，避免没有选中状态
+    if (prevProps.location.pathname != this.props.location.pathname) {
+      this.setState({
+        key: this.props.location.pathname.split('/').reverse()[0]
+      });
+    }
   }
 
-  getUserInfo = () => {
-    const { CurUser } = this.props;
+  getUserInfoHTML = () => {
+    const { CurUser, UserInfo } = this.props;
 
     return (
       <Card bordered={false}>
+        {CurUser.id === UserInfo.id ? (
+          <Link className={Styles['settings-link']} to="/settings">
+            <Icon type="setting" />
+          </Link>
+        ) : (
+          ''
+        )}
+
         <h3 className={Styles['user-name']}>{CurUser.user_name}</h3>
 
         <h4 className={Styles['describe']}>{CurUser.describe}</h4>
@@ -114,9 +129,10 @@ class Node extends PureComponent<Props, State> {
 
         <div className={Styles['tags']}>
           <div className={Styles['title']}>标签</div>
-          {CurUser.tag && (CurUser.tag || '').split(',').map((s: string) => {
-            return <Tag key={s}>{s}</Tag>;
-          })}
+          {CurUser.tag &&
+            (CurUser.tag || '').split(',').map((s: string) => {
+              return <Tag key={s}>{s}</Tag>;
+            })}
         </div>
       </Card>
     );
@@ -137,9 +153,9 @@ class Node extends PureComponent<Props, State> {
 
     return (
       <Row gutter={20}>
-        <Col span={6}>{this.getUserInfo()}</Col>
+        <Col span={6}>{this.getUserInfoHTML()}</Col>
         <Col span={18}>
-          <Card bordered={false} tabList={operationTabList} onTabChange={this.handlerTabChange} activeTabKey={key}>
+          <Card bordered={false} tabList={OPERATION_TAB_LIST} onTabChange={this.handlerTabChange} activeTabKey={key}>
             <Switch>
               <Route exact path={`${RootPath}/article`} component={PageArticle} />
               <Route exact path={`${RootPath}/other`} component={PageIng} />

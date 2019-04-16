@@ -1,0 +1,21 @@
+@import '~antd/lib/style/themes/default.less';
+
+.settings-box {
+  background-color: #fff;
+  padding: 16px 0;
+  display: flex;
+
+  .settings-nav {
+    width: 270px;
+    border-right: 1px solid @border-color-base;
+
+    :global {
+      .ant-menu-vertical {
+        border-width: 0;
+      }
+    }
+  }
+  .settings-ctx {
+    padding: 0 40px;
+  }
+}

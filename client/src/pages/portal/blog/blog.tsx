@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 
+import { Card } from 'antd';
+
 import BlogItem from '../../../components/blog-item/blog-item';
 
 import { iRootState, Dispatch } from '../../../store';
@@ -41,9 +43,9 @@ class Node extends Component<Props> {
   render() {
     const { CurBlog } = this.props;
     return (
-      <div>
+      <Card bordered={false}>
         <BlogItem isFull blog={CurBlog} />
-      </div>
+      </Card>
     );
   }
 }

@@ -29,6 +29,12 @@ const PageBlog = Loadable({
   loading: LoadingComponent
 });
 
+// 设置
+const PageSettings = Loadable({
+  loader: () => import('./settings/settings'),
+  loading: LoadingComponent
+});
+
 const mapStateToProps = ({ User }: iRootState) => ({
   UserInfo: User.UserInfo
 });
@@ -51,8 +57,9 @@ class Node extends Component<Props, object> {
         <Switch>
           <Route exact path={`${RootPath}/`} component={PageHome} />
           <Route exact path={`${RootPath}/category/:id`} component={PageHome} />
-          <Route path={`${RootPath}/user/:id`} component={PageUserCenter} />
           <Route exact path={`${RootPath}/blog/:id`} component={PageBlog} />
+          <Route path={`${RootPath}/user/:id`} component={PageUserCenter} />
+          <Route path={`${RootPath}/settings`} component={PageSettings} />
           <Route component={Page404} />
         </Switch>
       </LayoutHome>

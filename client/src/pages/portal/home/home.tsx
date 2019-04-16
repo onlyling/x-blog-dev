@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 
-import { Spin } from 'antd';
+import { Spin, Card } from 'antd';
 import BlogItem from '../../../components/blog-item/blog-item';
 
 import * as Store from '../../../store';
@@ -43,12 +43,12 @@ class Node extends PureComponent<Props> {
     const { Pager } = this.props;
 
     return (
-      <div>
+      <Card bordered={false}>
         {Pager.isFetching ? <Spin /> : ''}
         {(Pager.BlogPager.list || []).map((item) => {
           return <BlogItem key={item.id} blog={item} />;
         })}
-      </div>
+      </Card>
     );
   }
 }
