@@ -54,23 +54,30 @@ class Node extends PureComponent<Props, typeof initState> {
   // 登录
   handlerSubmit = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
-    const { form, UpdateUserInfo, isLogin, history } = this.props;
+    const self = this;
+    const {
+      form: { validateFields },
+      UpdateUserInfo,
+      isLogin,
+      history
+    } = self.props;
 
-    form.validateFields(async (err, values) => {
-      if (!err) {
-        this.setState({ fetching: true });
-        const doFetch = isLogin ? ApiUser.PostLogin : ApiUser.PostRegister;
-        const data = await doFetch(values);
+    validateFields(async (err, values) => {
+      if (err) {
+        return;
+      }
+      self.setState({ fetching: true });
+      const doFetch = isLogin ? ApiUser.PostLogin : ApiUser.PostRegister;
+      const data = await doFetch(values);
 
-        this.setState({ fetching: false });
+      self.setState({ fetching: false });
 
-        if (data.success) {
-          message.success(`成功${getCopywriter(isLogin)}`);
-          // 更新当前登录人信息
-          UpdateUserInfo(data.data);
-          // 跳转页面
-          history.push('/');
-        }
+      if (data.success) {
+        message.success(`成功${getCopywriter(isLogin)}`);
+        // 更新当前登录人信息
+        UpdateUserInfo(data.data);
+        // 跳转页面
+        history.push('/');
       }
     });
   };
@@ -93,7 +100,7 @@ class Node extends PureComponent<Props, typeof initState> {
 
             <FormItem>
               {getFieldDecorator('user_name', {
-                rules: [{ required: true, message: '请输入用户名吗' }]
+                rules: [{ required: true, message: '请输入用户名' }]
               })(<Input prefix={<Icon type="user" />} placeholder="用户名" />)}
             </FormItem>
 

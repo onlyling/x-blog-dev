@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { Switch, Route, RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Loadable from 'react-loadable';
+import Loadable from '@loadable/component';
 
 import LayoutHome from '../../layouts/layout-home/layout-home';
-import LoadingComponent from '../../components/page-loading/page-loading';
 import Page404 from '../../components/404/404';
 
 import * as Utils from '../../utils';
@@ -12,28 +11,16 @@ import * as Utils from '../../utils';
 import { iRootState, Dispatch } from '../../store';
 
 // 首页
-const PageHome = Loadable({
-  loader: () => import('./home/home'),
-  loading: LoadingComponent
-});
+const PageHome = Loadable(() => import('./home/home'));
 
 // 用户中心
-const PageUserCenter = Loadable({
-  loader: () => import('./user-center/user-center'),
-  loading: LoadingComponent
-});
+const PageUserCenter = Loadable(() => import('./user-center/user-center'));
 
 // 日记
-const PageBlog = Loadable({
-  loader: () => import('./blog/blog'),
-  loading: LoadingComponent
-});
+const PageBlog = Loadable(() => import('./blog/blog'));
 
 // 设置
-const PageSettings = Loadable({
-  loader: () => import('./settings/settings'),
-  loading: LoadingComponent
-});
+const PageSettings = Loadable(() => import('./settings/settings'));
 
 const mapStateToProps = ({ User }: iRootState) => ({
   UserInfo: User.UserInfo

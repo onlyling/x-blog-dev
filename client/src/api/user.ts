@@ -27,3 +27,10 @@ export const GetUserInfo = (id: number) => {
     params: { id }
   });
 };
+
+/**
+ * 更新用户资料
+ */
+export const PutUserInfo = (params: TypeModel.TypeUserModel) => {
+  return Ajax.put<TypeModel.TypeUserModel>('/api/user/one', params);
+};

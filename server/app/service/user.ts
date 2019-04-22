@@ -1,6 +1,7 @@
 import { Service } from 'egg';
 
 import { TypeApiBaseResponse } from '../typings/global';
+import { TypeUserModelAttributes } from '../model/User';
 
 // 登录的参数约定
 type TypeLoginParams = {
@@ -132,7 +133,7 @@ export default class MainService extends Service {
   /**
    * GetOne
    */
-  public async GetOne(id: number) {
+  public async GetOne(id: number): Promise<TypeApiBaseResponse> {
     const { ctx } = this;
     const { helper, model } = ctx;
     const data = await model.User.findOne({
@@ -142,6 +143,35 @@ export default class MainService extends Service {
     });
 
     if (data) {
+      return helper.ApiSuccess(data);
+    } else {
+      return helper.ApiError('查询结果不存在');
+    }
+  }
+
+  /**
+   * PutOne
+   */
+  public async PutOne(params: TypeUserModelAttributes) {
+    const { ctx } = this;
+    const { helper, model } = ctx;
+
+    if (!!!params.id) {
+      return helper.ApiError('查询结果不存在');
+    }
+
+    // 清除可能附带的密码
+    delete params.password;
+
+    const data = await model.User.findOne({
+      where: {
+        id: params.id
+      }
+    });
+
+    if (data) {
+      await data.update(params);
+
       return helper.ApiSuccess(data);
     } else {
       return helper.ApiError('查询结果不存在');

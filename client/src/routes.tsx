@@ -1,31 +1,18 @@
 import React from 'react';
 import { HashRouter as Router, Switch, Route } from 'react-router-dom';
-import Loadable from 'react-loadable';
+import Loadable from '@loadable/component';
 
-import LoadingComponent from './components/page-loading/page-loading';
 import ScrollToTop from './components/scroll-to-top/scroll-to-top';
 
 // 门户页面
-const PortalPages = Loadable({
-  loader: () => import('./pages/portal/portal'),
-  loading: LoadingComponent
-});
+const PortalPages = Loadable(() => import('./pages/portal/portal'));
 
 // 管理页面
-const AdminPages = Loadable({
-  loader: () => import('./pages/admin/admin'),
-  loading: LoadingComponent
-});
+const AdminPages = Loadable(() => import('./pages/admin/admin'));
 
-const AdminLogin = Loadable({
-  loader: () => import('./pages/login/login'),
-  loading: LoadingComponent
-});
+const AdminLogin = Loadable(() => import('./pages/login/login'));
 
-const AdminRegister = Loadable({
-  loader: () => import('./pages/register/register'),
-  loading: LoadingComponent
-});
+const AdminRegister = Loadable(() => import('./pages/register/register'));
 
 const Node: React.FunctionComponent = () => {
   return (

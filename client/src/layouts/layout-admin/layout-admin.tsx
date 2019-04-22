@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 
 import { Layout } from 'antd';
 
+import ErrorBoundary from '../../components/error-boundary/error-boundary';
+
 // import Styles from './layout-home.module.less';
 
 const { Header, Sider, Content } = Layout;
@@ -22,7 +24,9 @@ class Node extends Component {
             &emsp;
             <Link to="/admin/blog/list">to blog list</Link>
           </Header>
-          <Content>{children}</Content>
+          <Content>
+            <ErrorBoundary>{children}</ErrorBoundary>
+          </Content>
         </Layout>
       </Layout>
     );

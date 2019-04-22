@@ -1,10 +1,10 @@
 import { Application } from 'egg';
 import * as sequelize from 'sequelize';
 
-interface TypeModelAttributes {
+export interface TypeUserModelAttributes {
   id?: number;
   user_name: string;
-  password: string;
+  password?: string;
   super_admin?: number;
   describe?: string;
   email?: string;
@@ -15,13 +15,13 @@ interface TypeModelAttributes {
   location?: string;
 }
 
-type TypeModelInstance = sequelize.Instance<TypeModelAttributes> & TypeModelAttributes;
+type TypeModelInstance = sequelize.Instance<TypeUserModelAttributes> & TypeUserModelAttributes;
 
-type TypeModeleModel = sequelize.Model<TypeModelInstance, TypeModelAttributes>;
+type TypeModeleModel = sequelize.Model<TypeModelInstance, TypeUserModelAttributes>;
 
 const initModel = (app: Application): TypeModeleModel => {
   const { STRING, INTEGER } = app.Sequelize;
-  const attributes: SequelizeAttributes<TypeModelAttributes> = {
+  const attributes: SequelizeAttributes<TypeUserModelAttributes> = {
     // ID
     id: {
       type: INTEGER,
@@ -100,7 +100,7 @@ const initModel = (app: Application): TypeModeleModel => {
   /**
    * 用户表
    */
-  const Instance = app.model.define<TypeModelInstance, TypeModelAttributes>('user', attributes);
+  const Instance = app.model.define<TypeModelInstance, TypeUserModelAttributes>('user', attributes);
 
   // 关联关系
   Instance.associate = () => {

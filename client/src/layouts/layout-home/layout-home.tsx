@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 
 import { Layout } from 'antd';
 
+import ErrorBoundary from '../../components/error-boundary/error-boundary';
+
 import { TypeUserModel } from '../../types/model';
 
 import Styles from './layout-home.module.less';
@@ -114,7 +116,7 @@ class Node extends Component<TypeNodeProps> {
 
         <Layout className={Styles['content-box']}>
           <Content className={Styles['content']}>
-            {children}
+            <ErrorBoundary>{children}</ErrorBoundary>
             {this.getFooterHTML()}
           </Content>
         </Layout>

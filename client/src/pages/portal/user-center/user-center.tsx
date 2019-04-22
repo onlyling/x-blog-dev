@@ -11,15 +11,15 @@ import Styles from './user-center.module.less';
 
 import PageArticle from './article';
 
-const mapStateToProps = ({ Pager, User }: Store.iRootState) => ({
-  CurUser: Pager.CurUser,
-  UserInfo: User.UserInfo
-});
-
 // 建设中
 const PageIng = () => {
   return <div>ing</div>;
 };
+
+const mapStateToProps = ({ Pager, User }: Store.iRootState) => ({
+  CurUser: Pager.CurUser,
+  UserInfo: User.UserInfo
+});
 
 const mapDispatchToProps = (Dispatch: any) => {
   const { Pager } = Dispatch as Store.Dispatch;
