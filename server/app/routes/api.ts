@@ -18,6 +18,7 @@ export default (app: Application) => {
   router.post(FixApiPath('/user/login'), controller.api.user.PostLogin);
   router.get(FixApiPath('/user/one'), controller.api.user.GetOne);
   router.put(FixApiPath('/user/one'), controller.api.user.PutOne);
+  router.put(FixApiPath('/user/password'), controller.api.user.PutPassword);
 
   // 标签相关
   router.post(FixApiPath('/tag/one'), userRequired, controller.api.tag.PostOne);

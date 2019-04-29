@@ -9,6 +9,7 @@ import { ClickParam } from 'antd/lib/menu';
 import Styles from './settings.module.less';
 
 import BaseSttings from './base-settings';
+import SecuritySttings from './security-settings';
 
 const MenuItem = Menu.Item;
 
@@ -23,6 +24,11 @@ const NAV_LIST = [
     url: 'base',
     title: '基本设置',
     component: BaseSttings
+  },
+  {
+    url: 'security',
+    title: '安全设置',
+    component: SecuritySttings
   },
   {
     url: 'other',

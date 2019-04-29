@@ -1,6 +1,7 @@
 import { Ajax } from '../axios';
 
 import * as TypeModel from '../types/model';
+import * as TypeParam from '../types/param';
 
 /**
  * 用户登录
@@ -34,3 +35,11 @@ export const GetUserInfo = (id: number) => {
 export const PutUserInfo = (params: TypeModel.TypeUserModel) => {
   return Ajax.put<TypeModel.TypeUserModel>('/api/user/one', params);
 };
+
+/**
+ * 更新用户密码
+ * @param params
+ */
+export const PutUserPassword = (params: TypeParam.TypeUserNewPasswordParam) => {
+  return Ajax.put<any>('/api/user/password', params);
+}

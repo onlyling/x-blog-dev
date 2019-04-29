@@ -43,4 +43,15 @@ export default class MainController extends Controller {
 
     ctx.body = await service.user.PutOne(params);
   }
+
+  /**
+   * PutPassword
+   */
+  public async PutPassword() {
+    const { ctx } = this;
+    const { service } = ctx;
+    const params = ctx.request.body;
+
+    ctx.body = await service.user.PutPassword(params.id, params.password, params.new_password);
+  }
 }

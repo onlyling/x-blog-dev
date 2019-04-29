@@ -7,6 +7,7 @@ import * as ApiUser from '../../../api/user';
 import { FormComponentProps } from 'antd/lib/form/Form';
 
 import * as Store from '../../../store';
+import * as TypeParam from '../../../types/param';
 
 const FormItem = Form.Item;
 
@@ -43,11 +44,10 @@ const mapStateToProps = ({ User }: Store.iRootState) => ({
 });
 
 const mapDispatchToProps = (Dispatch: any) => {
-  const { User } = Dispatch as Store.Dispatch;
-  return {
-    UpdateUserInfo: User.UpdateUserInfo
-  };
+  // const { User } = Dispatch as Store.Dispatch;
+  return {};
 };
+
 type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps> & FormComponentProps;
 type State = typeof initState;
 
@@ -62,23 +62,32 @@ class Node extends PureComponent<Props, State> {
 
     const self = this;
     const {
-      form: { validateFieldsAndScroll },
-      UpdateUserInfo
+      form: { validateFieldsAndScroll, setFieldsValue }
     } = self.props;
 
-    validateFieldsAndScroll(async (err, values) => {
+    validateFieldsAndScroll(async (err, values: TypeParam.TypeUserNewPasswordParam) => {
       if (err) {
-        return;
+        return false;
+      }
+
+      if (values.new_2_password != values.new_password) {
+        return message.error('两次输入的新密码不一致');
       }
 
       self.setState({
         fetching: true
       });
 
-      const data = await ApiUser.PutUserInfo(values);
+      const data = await ApiUser.PutUserPassword(values);
+
       if (data.success) {
-        UpdateUserInfo(data.data);
         message.success('操作成功');
+
+        setFieldsValue({
+          password: '',
+          new_password: '',
+          new_2_password: ''
+        });
       }
 
       self.setState({
@@ -95,53 +104,28 @@ class Node extends PureComponent<Props, State> {
     } = this.props;
 
     return (
-      <Card bordered={false} title="基本设置">
+      <Card bordered={false} title="安全设置">
         <Form {...FORM_ITEM_LAYOUT} onSubmit={this.handlerSubmit}>
           {getFieldDecorator('id', {
             initialValue: UserInfo.id
           })(<Input type="hidden" />)}
 
-          <FormItem label="用户名">
-            {getFieldDecorator('user_name', {
-              rules: [{ required: true, message: '请输入用户名' }],
-              initialValue: UserInfo.user_name
-            })(<Input />)}
+          <FormItem label="旧密码">
+            {getFieldDecorator('password', {
+              rules: [{ required: true, message: '请输入旧密码' }]
+            })(<Input type="password" />)}
           </FormItem>
 
-          <FormItem label="个人描述">
-            {getFieldDecorator('describe', {
-              initialValue: UserInfo.describe
-            })(<Input />)}
+          <FormItem label="新密码">
+            {getFieldDecorator('new_password', {
+              rules: [{ required: true, message: '请输入新密码' }]
+            })(<Input type="password" />)}
           </FormItem>
 
-          <FormItem label="职位">
-            {getFieldDecorator('title', {
-              initialValue: UserInfo.title
-            })(<Input />)}
-          </FormItem>
-
-          <FormItem label="公司">
-            {getFieldDecorator('company', {
-              initialValue: UserInfo.company
-            })(<Input />)}
-          </FormItem>
-
-          <FormItem label="城市">
-            {getFieldDecorator('location', {
-              initialValue: UserInfo.location
-            })(<Input />)}
-          </FormItem>
-
-          <FormItem label="个人站点">
-            {getFieldDecorator('personal_web', {
-              initialValue: UserInfo.personal_web
-            })(<Input />)}
-          </FormItem>
-
-          <FormItem label="标签">
-            {getFieldDecorator('tag', {
-              initialValue: UserInfo.tag
-            })(<Input />)}
+          <FormItem label="确认新密码">
+            {getFieldDecorator('new_2_password', {
+              rules: [{ required: true, message: '请再次输入新密码' }]
+            })(<Input type="password" />)}
           </FormItem>
 
           <FormItem {...TAI_FORM_ITEM_LAYOUT}>

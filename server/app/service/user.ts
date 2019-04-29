@@ -177,4 +177,46 @@ export default class MainService extends Service {
       return helper.ApiError('查询结果不存在');
     }
   }
+
+  /**
+   * PutPassword
+   */
+  public async PutPassword(id: number | string, password: string, new_password: string) {
+    const { ctx } = this;
+    const { helper, model } = ctx;
+    if (!!!id) {
+      return helper.ApiError('id 必填');
+    }
+
+    if (!!!password) {
+      return helper.ApiError('password 必填');
+    }
+
+    if (!!!new_password) {
+      return helper.ApiError('new_password 必填');
+    }
+
+    const data = await model.User.findOne({
+      where: {
+        id
+      }
+    });
+
+    if (!!!data) {
+      return helper.ApiError('查询结果不存在');
+    }
+
+    password = helper.doEncryptBySHA1(password);
+    new_password = helper.doEncryptBySHA1(new_password);
+
+    if (password != data.password) {
+      return helper.ApiError('密码不正确');
+    }
+
+    await data.update({
+      password: new_password
+    });
+
+    return helper.ApiSuccess('修改密码成功');
+  }
 }
