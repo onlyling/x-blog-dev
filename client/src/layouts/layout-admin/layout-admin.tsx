@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, Icon } from 'antd';
 import ErrorBoundary from '../../components/error-boundary/error-boundary';
 
-// import Styles from './layout-home.module.less';
+import Styles from './layout-admin.module.less';
 
 import { ClickParam } from 'antd/lib/menu';
 import * as H from 'history';
@@ -13,6 +13,7 @@ const { Sider, Content } = Layout;
 export type TypeSiderNode = {
   path: string;
   name?: string;
+  icon?: string;
 };
 
 type Props = {
@@ -32,12 +33,14 @@ class Node extends Component<Props, object> {
         {sider.map((s) => {
           return (
             <Menu.Item key={s.path}>
-              <span>{s.name}</span>
+              {s.icon ? <Icon type={s.icon} /> : ''}
+              {s.name}
             </Menu.Item>
           );
         })}
         <Menu.Item key="/">
-          <span>返回首页</span>
+          <Icon type="home" />
+          返回首页
         </Menu.Item>
       </Menu>
     );
@@ -49,7 +52,7 @@ class Node extends Component<Props, object> {
       <Layout className="app-box">
         <Sider>{this.getSiderHTML()}</Sider>
         <Layout>
-          <Content>
+          <Content className={Styles['content']}>
             <ErrorBoundary>{children}</ErrorBoundary>
           </Content>
         </Layout>

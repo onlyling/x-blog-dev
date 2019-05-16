@@ -24,27 +24,31 @@ const Routes: {
   component: React.ComponentType<any>;
   isMenu: boolean;
   name?: string;
+  icon?: string;
 }[] = [
   {
-    path: '/',
+    path: '',
     exact: true,
     component: PageHome,
     isMenu: true,
-    name: 'Dashboard'
+    name: 'Dashboard',
+    icon: 'dashboard'
   },
   {
     path: '/user/list',
     exact: true,
     component: PageUserList,
     isMenu: true,
-    name: '用户管理'
+    name: '用户管理',
+    icon: 'user'
   },
   {
     path: '/blog/list',
     exact: true,
     component: PageBlogList,
     isMenu: true,
-    name: '文章管理'
+    name: '文章管理',
+    icon: 'book'
   }
 ];
 
@@ -64,7 +68,8 @@ class Node extends React.Component<Props, object> {
       if (r.isMenu) {
         nav.push({
           path: `${RootPath}${r.path}`,
-          name: r.name
+          name: r.name,
+          icon: r.icon
         });
       }
     });
