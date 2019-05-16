@@ -54,4 +54,21 @@ export default class MainController extends Controller {
 
     ctx.body = await service.user.PutPassword(params.id, params.password, params.new_password);
   }
+
+  /**
+   * GetUserIsLogin
+   */
+  public async GetUserIsLogin() {
+    const { ctx } = this;
+    const {
+      session: { UserInfo },
+      helper
+    } = ctx;
+
+    if (UserInfo && UserInfo.id) {
+      ctx.body = helper.ApiSuccess(UserInfo);
+    } else {
+      ctx.body = helper.ApiError('登录超时');
+    }
+  }
 }

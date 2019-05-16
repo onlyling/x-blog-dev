@@ -43,3 +43,10 @@ export const PutUserInfo = (params: TypeModel.TypeUserModel) => {
 export const PutUserPassword = (params: TypeParam.TypeUserNewPasswordParam) => {
   return Ajax.put<any>('/api/user/password', params);
 }
+
+/**
+ * 用户是否已经登录
+ */
+export const GetUserLogined = () => {
+  return Ajax.get<any>('/api/user/logined');
+}

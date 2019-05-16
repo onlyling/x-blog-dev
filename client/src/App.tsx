@@ -7,8 +7,18 @@ import 'moment/locale/zh-cn';
 
 import Routes from './routes';
 import { store } from './store';
+import * as ApiUser from './api/user';
 
 import './App.less';
+
+ApiUser.GetUserLogined().then((data) => {
+  const { UpdateUserInfo } = store.dispatch.User;
+  if (data.success) {
+    UpdateUserInfo(data.data);
+  } else {
+    UpdateUserInfo({});
+  }
+});
 
 class App extends Component {
   render() {
