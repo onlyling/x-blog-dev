@@ -1,0 +1,37 @@
+.error-page {
+  width: 700px;
+  margin: 0 auto;
+  // padding-left: 440px;
+  display: flex;
+  align-items: center;
+  padding-top: 30px;
+
+  .code {
+    font-size: 72px;
+    line-height: 72px;
+  }
+
+  .msg {
+    font-size: 20px;
+    line-height: 28px;
+  }
+
+  :global {
+    .error-icon {
+      width: 430px;
+      height: 360px;
+      background-repeat: no-repeat;
+      background-position: 50% 50%;
+      background-size: contain;
+      // float: left;
+      // margin-left: -440px;
+    }
+
+    .icon-404 {
+      background-image: url('./404.svg');
+    }
+    .icon-403 {
+      background-image: url('./403.svg');
+    }
+  }
+}

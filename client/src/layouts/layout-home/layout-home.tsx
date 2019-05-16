@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
-
 import { Layout } from 'antd';
 
 import ErrorBoundary from '../../components/error-boundary/error-boundary';
@@ -48,7 +47,7 @@ class Node extends Component<TypeNodeProps> {
           link: '/user/' + UserInfo.id
         }
       ]);
-      if (true) {
+      if (UserInfo.super_admin) {
         baseLink = baseLink.concat([
           {
             text: '管理中心',

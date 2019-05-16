@@ -4,11 +4,15 @@ import { connect } from 'react-redux';
 import Loadable from '@loadable/component';
 
 import LayoutHome from '../../layouts/layout-home/layout-home';
-import Page404 from '../../components/404/404';
+import ErrorPage from '../../components/error-page/error-page';
 
 import * as Utils from '../../utils';
 
 import { iRootState, Dispatch } from '../../store';
+
+const Page404: React.SFC = () => {
+  return <ErrorPage code="404" />;
+};
 
 // 首页
 const PageHome = Loadable(() => import('./home/home'));
