@@ -58,7 +58,7 @@ export default class MainController extends Controller {
   /**
    * GetUserIsLogin
    */
-  public async GetUserIsLogin() {
+  public async GetLoginUser() {
     const { ctx } = this;
     const {
       session: { UserInfo },
@@ -68,7 +68,19 @@ export default class MainController extends Controller {
     if (UserInfo && UserInfo.id) {
       ctx.body = helper.ApiSuccess(UserInfo);
     } else {
-      ctx.body = helper.ApiError('登录超时');
+      ctx.body = helper.ApiSuccess({});
     }
+  }
+
+  /**
+   * GetLogout
+   */
+  public async GetLogout() {
+    const { ctx } = this;
+    const { helper } = ctx;
+
+    ctx.session.UserInfo = {};
+
+    ctx.body = helper.ApiSuccess('已退出');
   }
 }

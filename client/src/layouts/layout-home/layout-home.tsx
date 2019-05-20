@@ -13,6 +13,7 @@ const { Content } = Layout;
 // props
 interface TypeNodeProps {
   UserInfo: TypeUserModel;
+  UserLogout: Function;
 }
 
 // 链接的类型
@@ -22,6 +23,9 @@ type TypeSiderLink = {
 };
 
 class Node extends Component<TypeNodeProps> {
+  handlerUserLogout = () => {
+    this.props.UserLogout();
+  };
   // 构建侧边栏链接
   getSiderLinksHTML = () => {
     const { UserInfo } = this.props;
@@ -68,6 +72,15 @@ class Node extends Component<TypeNodeProps> {
             </li>
           );
         })}
+        {UserInfo.id ? (
+          <li>
+            <a className={Styles['link']} onClick={this.handlerUserLogout}>
+              退出
+            </a>
+          </li>
+        ) : (
+          ''
+        )}
       </ul>
     );
   };

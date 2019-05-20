@@ -8,7 +8,7 @@ import ErrorPage from '../../components/error-page/error-page';
 
 import * as Utils from '../../utils';
 
-import { iRootState, Dispatch } from '../../store';
+import * as Store from '../../store';
 
 const Page404: React.SFC = () => {
   return <ErrorPage code="404" />;
@@ -26,11 +26,16 @@ const PageBlog = Loadable(() => import('./blog/blog'));
 // 设置
 const PageSettings = Loadable(() => import('./settings/settings'));
 
-const mapStateToProps = ({ User }: iRootState) => ({
+const mapStateToProps = ({ User }: Store.iRootState) => ({
   UserInfo: User.UserInfo
 });
 
-const mapDispatchToProps = ({  }: Dispatch) => ({});
+const mapDispatchToProps = (Dispatch: any) => {
+  const { User } = Dispatch as Store.Dispatch;
+  return {
+    UserLogout: User.GetUserLogout
+  };
+};
 
 type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps> & RouteComponentProps;
 
@@ -40,11 +45,11 @@ type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchT
 ) as any)
 class Node extends Component<Props, object> {
   render() {
-    const { match, UserInfo } = this.props;
+    const { match, UserInfo, UserLogout } = this.props;
     const RootPath = Utils.getRootPath(match.path);
 
     return (
-      <LayoutHome UserInfo={UserInfo}>
+      <LayoutHome UserInfo={UserInfo} UserLogout={UserLogout}>
         <Switch>
           <Route exact path={`${RootPath}/`} component={PageHome} />
           <Route exact path={`${RootPath}/category/:id`} component={PageHome} />
