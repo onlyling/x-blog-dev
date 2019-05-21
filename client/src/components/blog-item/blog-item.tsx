@@ -11,11 +11,12 @@ import Styles from './blog-item.module.less';
 interface TypeProps {
   isFull?: boolean;
   blog: TypeBlogModel;
+  edit?: boolean;
 }
 
 class Node extends PureComponent<TypeProps> {
   render() {
-    const { isFull, blog } = this.props;
+    const { isFull, blog, edit } = this.props;
     const category = blog.category || {};
     const user = blog.user || {};
     const tags = blog.tags || [];
@@ -37,7 +38,7 @@ class Node extends PureComponent<TypeProps> {
           </span>
 
           <span className={Styles['item']}>
-          <Link to={`/category/${blog.category_id}`}>{category.name}</Link>
+            <Link to={`/category/${blog.category_id}`}>{category.name}</Link>
           </span>
 
           <span className={Styles['item']}>
@@ -50,6 +51,14 @@ class Node extends PureComponent<TypeProps> {
               );
             })}
           </span>
+
+          {edit ? (
+            <span className={Styles['item']}>
+              <Link to={`/edit/${blog.id}`}>编辑</Link>
+            </span>
+          ) : (
+            ''
+          )}
         </p>
 
         {isFull ? (

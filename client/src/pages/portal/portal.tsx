@@ -20,11 +20,14 @@ const PageHome = Loadable(() => import('./home/home'));
 // 用户中心
 const PageUserCenter = Loadable(() => import('./user-center/user-center'));
 
-// 日记
+// 文字
 const PageBlog = Loadable(() => import('./blog/blog'));
 
 // 设置
 const PageSettings = Loadable(() => import('./settings/settings'));
+
+// 发布、编辑文章
+const PagePost = Loadable(() => import('./post/post'));
 
 const mapStateToProps = ({ User }: Store.iRootState) => ({
   UserInfo: User.UserInfo
@@ -56,6 +59,8 @@ class Node extends Component<Props, object> {
           <Route exact path={`${RootPath}/blog/:id`} component={PageBlog} />
           <Route path={`${RootPath}/user/:id`} component={PageUserCenter} />
           <Route path={`${RootPath}/settings`} component={PageSettings} />
+          <Route path={`${RootPath}/post`} component={PagePost} />
+          <Route path={`${RootPath}/edit/:id`} component={PagePost} />
           <Route component={Page404} />
         </Switch>
       </LayoutHome>

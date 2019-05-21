@@ -19,15 +19,6 @@ type TypeBlogParams = {
  */
 export default class MainService extends Service {
   /**
-   * 创建新日记
-   * @param params
-   * { title, markdown_content, user_id, tags, category_id }
-   */
-  public async PostOne(params: TypeBlogParams): Promise<TypeApiBaseResponse> {
-    return this.SaveBlog(params);
-  }
-
-  /**
    * SaveBlog
    */
   public async SaveBlog({
@@ -91,13 +82,32 @@ export default class MainService extends Service {
 
     if (id) {
       // 修改文章
-      return helper.ApiError('TODO');
+      const instance = await model.Blog.findOne({
+        where: {
+          id: id
+        }
+      });
+
+      if (instance) {
+        await instance.update({
+          title,
+          markdown_content,
+          content: helper.formartMarkdown(markdown_content)
+        });
+
+        instance.setCategory(category_id);
+        instance.setTags(tags);
+
+        return helper.ApiSuccess(instance);
+      } else {
+        return helper.ApiError('文章不存在');
+      }
     } else {
       // 保存文章
       const instance = await model.Blog.create({
         title,
         markdown_content,
-        content: markdown_content
+        content: helper.formartMarkdown(markdown_content)
       });
 
       if (instance) {
@@ -107,7 +117,7 @@ export default class MainService extends Service {
 
         return helper.ApiSuccess(instance);
       } else {
-        return helper.ApiError('日记创建失败');
+        return helper.ApiError('文章创建失败');
       }
     }
   }

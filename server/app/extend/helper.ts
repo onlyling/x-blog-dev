@@ -1,4 +1,12 @@
 import * as crypto from 'crypto';
+import * as marked from 'marked';
+import highlight from 'highlight.js';
+
+marked.setOptions({
+  highlight: function(code) {
+    return highlight.highlightAuto(code).value;
+  }
+});
 
 import { TypeApiBaseResponse } from '../typings/global';
 
@@ -74,10 +82,15 @@ const formatPagerDate = (datas, curpage: number, pagesize: number) => {
   };
 };
 
+const formartMarkdown = (str: string): string => {
+  return marked(str);
+};
+
 export default {
   ApiSuccess,
   ApiError,
   doEncryptBySHA1,
   Marked,
-  formatPagerDate
+  formatPagerDate,
+  formartMarkdown
 };

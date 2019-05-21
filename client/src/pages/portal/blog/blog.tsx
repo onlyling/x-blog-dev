@@ -8,8 +8,9 @@ import BlogItem from '../../../components/blog-item/blog-item';
 
 import { iRootState, Dispatch } from '../../../store';
 
-const mapStateToProps = ({ Pager }: iRootState) => ({
-  CurBlog: Pager.CurBlog
+const mapStateToProps = ({ Pager, User }: iRootState) => ({
+  CurBlog: Pager.CurBlog,
+  UserInfo: User.UserInfo
 });
 
 const mapDispatchToProps = (Dispatch: any) => {
@@ -41,10 +42,10 @@ class Node extends Component<Props> {
   }
 
   render() {
-    const { CurBlog } = this.props;
+    const { CurBlog, UserInfo } = this.props;
     return (
       <Card bordered={false}>
-        <BlogItem isFull blog={CurBlog} />
+        <BlogItem isFull blog={CurBlog} edit={CurBlog.user_id == UserInfo.id} />
       </Card>
     );
   }

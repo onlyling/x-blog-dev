@@ -26,6 +26,7 @@ export interface TypeBlogModel {
   user: TypeUserModel;
   category: TypeCategoryModel;
   tags: TypeTagModel[];
+  markdown_content?: string;
 }
 
 // 类目的基础类型

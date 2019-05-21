@@ -12,4 +12,14 @@ export default class MainController extends Controller {
       name: ctx.request.body.name
     });
   }
+
+  /**
+   * GetAll
+   */
+  public async GetAll() {
+    const { ctx } = this;
+    const { service } = ctx;
+
+    ctx.body = await service.category.GetAll();
+  }
 }

@@ -49,6 +49,10 @@ class Node extends Component<TypeNodeProps> {
         {
           text: '个人中心',
           link: '/user/' + UserInfo.id
+        },
+        {
+          text: '发布文章',
+          link: '/post'
         }
       ]);
       if (UserInfo.super_admin) {

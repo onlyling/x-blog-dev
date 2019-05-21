@@ -209,4 +209,19 @@ export default class MainService extends Service {
       )
     );
   }
+
+  /**
+   * GetAll
+   */
+  public async GetAll(): Promise<TypeApiBaseResponse> {
+    const { ctx } = this;
+    const { helper, model } = ctx;
+
+    const data = await model.Tag.findAll();
+    if (data) {
+      return helper.ApiSuccess(data);
+    } else {
+      return helper.ApiError('没有适合的数据');
+    }
+  }
 }

@@ -8,8 +8,27 @@ export default class MainController extends Controller {
     const { ctx } = this;
     const { service } = ctx;
 
-    ctx.body = await service.blog.PostOne(
+    ctx.body = await service.blog.SaveBlog(
       Object.assign(ctx.request.body, {
+        user_id: ctx.session.UserInfo.id
+      })
+    );
+  }
+
+  /**
+   * PutOne
+   */
+  public async PutOne() {
+    const { ctx } = this;
+    const { service, helper } = ctx;
+    const reqBody = ctx.request.body;
+
+    if (!reqBody.id) {
+      return (ctx.body = helper.ApiError('id 必填'));
+    }
+
+    ctx.body = await service.blog.SaveBlog(
+      Object.assign(reqBody, {
         user_id: ctx.session.UserInfo.id
       })
     );

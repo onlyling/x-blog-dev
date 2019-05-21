@@ -27,12 +27,15 @@ export default (app: Application) => {
   router.get(FixApiPath('/tag/pager'), controller.api.tag.GetPager);
   router.get(FixApiPath('/tag/rank'), controller.api.tag.GetTagRankList);
   router.get(FixApiPath('/tag/blog-pager'), controller.api.tag.GetTagAndBlogPager);
+  router.get(FixApiPath('/tag/all'), controller.api.tag.GetAll);
 
   // 类目项目
   router.post(FixApiPath('/category/one'), controller.api.category.PostOne);
+  router.get(FixApiPath('/category/all'), controller.api.category.GetAll);
 
-  // 日记项目
+  // 文章项目
   router.post(FixApiPath('/blog/one'), userRequired, controller.api.blog.PostOne);
   router.get(FixApiPath('/blog/pager'), controller.api.blog.GetPager);
   router.get(FixApiPath('/blog/one'), controller.api.blog.GetOne);
+  router.put(FixApiPath('/blog/one'), controller.api.blog.PutOne);
 };

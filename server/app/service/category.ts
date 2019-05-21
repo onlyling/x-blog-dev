@@ -53,4 +53,19 @@ export default class MainService extends Service {
       }
     }
   }
+
+  /**
+   * GetAll
+   */
+  public async GetAll(): Promise<TypeApiBaseResponse> {
+    const { ctx } = this;
+    const { helper, model } = ctx;
+
+    const datas = await model.Category.findAll();
+    if (datas) {
+      return helper.ApiSuccess(datas);
+    } else {
+      return helper.ApiError('没有适合的数据');
+    }
+  }
 }
