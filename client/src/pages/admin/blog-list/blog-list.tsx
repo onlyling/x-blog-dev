@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps, Link } from 'react-router-dom';
 
 import { Card, Table, Tag } from 'antd';
 
@@ -57,6 +57,14 @@ class Node extends BaseList<Props> {
         key: 'title'
       },
       {
+        title: '发布者',
+        dataIndex: 'user',
+        key: 'user',
+        render: (i: TypeModel.TypeUserModel) => {
+          return i.user_name;
+        }
+      },
+      {
         title: '分类',
         dataIndex: 'category',
         key: 'category',
@@ -73,6 +81,17 @@ class Node extends BaseList<Props> {
           return i.map((t: TypeModel.TypeTagModel) => {
             return <Tag key={t.id}>{t.name}</Tag>;
           });
+        }
+      },
+      {
+        title: '操作',
+        key: 'action',
+        render: (i, item) => {
+          return (
+            <React.Fragment>
+              <Link to={`/blog/${item.id}`}>查看</Link>
+            </React.Fragment>
+          );
         }
       }
     ];

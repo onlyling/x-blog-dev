@@ -8,6 +8,7 @@ import * as ApiBlog from '../../../api/blog';
 import { FormComponentProps } from 'antd/lib/form/Form';
 import * as Store from '../../../store';
 import * as TypeParam from '../../../types/param';
+import * as TypeModel from '../../../types/model';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -65,23 +66,24 @@ type Props = ReturnType<typeof mapStateToProps> &
   FormComponentProps;
 type State = {
   fetching: boolean;
+  isEdit: boolean;
 };
 
 class Node extends PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = {
-      fetching: false
-    };
 
     const id = props.match.params.id;
 
+    this.state = {
+      fetching: false,
+      isEdit: !!id
+
+    };
+
     if (id) {
       // 更新当前 blog
-      props.UpdateSomeCur({
-        type: 'CurBlog',
-        params: id
-      });
+      this.initPage(id);
     }
   }
 
@@ -90,6 +92,24 @@ class Node extends PureComponent<Props, State> {
     GetAllCategory();
     GetAllTag();
   }
+
+  componentDidUpdate(prevProps: Props) {
+    const id = this.props.match.params.id;
+    if (id != prevProps.match.params.id && !!id) {
+      this.initPage(id);
+    }
+    this.setState({
+      isEdit: !!id
+    });
+  }
+
+  initPage = (id: number | string) => {
+    const { UpdateSomeCur } = this.props;
+    UpdateSomeCur({
+      type: 'CurBlog',
+      params: id
+    });
+  };
 
   handlerSubmit = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -129,26 +149,27 @@ class Node extends PureComponent<Props, State> {
       Tags,
       CurBlog
     } = this.props;
-    const { fetching } = this.state;
+    const { fetching, isEdit } = this.state;
+    const __CurBlog: TypeModel.TypeBlogModel = isEdit ? CurBlog : ({} as TypeModel.TypeBlogModel);
 
     return (
       <Card bordered={false}>
         <Form {...FORM_ITEM_LAYOUT} onSubmit={this.handlerSubmit}>
           {getFieldDecorator('id', {
-            initialValue: CurBlog.id
+            initialValue: __CurBlog.id
           })(<Input type="hidden" />)}
 
           <FormItem label="标题">
             {getFieldDecorator('title', {
               rules: [{ required: true, message: '请输入文章标题' }],
-              initialValue: CurBlog.title
+              initialValue: __CurBlog.title
             })(<Input />)}
           </FormItem>
 
           <FormItem label="分类">
             {getFieldDecorator('category_id', {
               rules: [{ required: true, message: '请选择分类' }],
-              initialValue: CurBlog.category_id ? CurBlog.category_id + '' : null
+              initialValue: __CurBlog.category_id ? CurBlog.category_id + '' : null
             })(
               <Select>
                 {Categorys.map((c) => {
@@ -161,14 +182,14 @@ class Node extends PureComponent<Props, State> {
           <FormItem label="标签">
             {getFieldDecorator('tags', {
               rules: [{ required: true, message: '请选择标签' }],
-              initialValue: (CurBlog.tags || []).map((t) => t.id)
+              initialValue: (__CurBlog.tags || []).map((t) => t.id)
             })(<CheckboxGroup options={Tags.map((t) => ({ label: t.name, value: t.id }))} />)}
           </FormItem>
 
           <FormItem {...TAI_FORM_ITEM_LAYOUT}>
             {getFieldDecorator('markdown_content', {
               rules: [{ required: true, message: '请输入文章内容' }],
-              initialValue: CurBlog.markdown_content
+              initialValue: __CurBlog.markdown_content
             })(<Input.TextArea style={{ minHeight: 400 }} />)}
           </FormItem>
 
