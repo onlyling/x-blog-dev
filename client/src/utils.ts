@@ -1,5 +1,5 @@
-import { TypeUserModel } from './types/model';
-import { type } from 'os';
+import * as TypeMoel from './types/model';
+import * as TypeGlobal from './types/global';
 
 /**
  * 匹配的路径
@@ -15,12 +15,12 @@ const USER_INFO_KEY = '__UserInfo__';
 /**
  * 获取层级的用户
  */
-export const GetOldUserInfo = (): TypeUserModel => {
-  let UserInfo: TypeUserModel = {} as TypeUserModel;
+export const GetOldUserInfo = (): TypeMoel.TypeUserModel => {
+  let UserInfo: TypeMoel.TypeUserModel = {} as TypeMoel.TypeUserModel;
   try {
     const str = localStorage.getItem(USER_INFO_KEY);
     if (str) {
-      const User: TypeUserModel = JSON.parse(str);
+      const User: TypeMoel.TypeUserModel = JSON.parse(str);
       if (User.id) {
         UserInfo = User;
       }
@@ -33,12 +33,8 @@ export const GetOldUserInfo = (): TypeUserModel => {
  * 缓存用户信息
  * @param user
  */
-export const PutOldUserInfo = (user: TypeUserModel): void => {
+export const PutOldUserInfo = (user: TypeMoel.TypeUserModel): void => {
   localStorage.setItem(USER_INFO_KEY, JSON.stringify(user));
-};
-
-type TypeFormatDate = {
-  [index: string]: any;
 };
 
 /**
@@ -48,7 +44,7 @@ type TypeFormatDate = {
  */
 export const formatTime = (t: string, format = 'yyyy-MM-dd hh:mm:ss') => {
   const __now = new Date(t);
-  const date: TypeFormatDate = {
+  const date: TypeGlobal.TypeAnyObject = {
     'M+': __now.getMonth() + 1,
     'd+': __now.getDate(),
     'h+': __now.getHours(),
@@ -69,4 +65,101 @@ export const formatTime = (t: string, format = 'yyyy-MM-dd hh:mm:ss') => {
     }
   }
   return format;
+};
+
+/**
+ * 获取分页配置
+ * @param {Object} param0
+ * @param {Function} onChange
+ */
+export const getPager = (
+  { curPage = 1, pageSize = 10, totalRow = 0, totalPage = 0 }: TypeGlobal.TypePagerParam,
+  onChange: (page: number | string, pageSize?: number) => void
+) => {
+  return {
+    size: 'small',
+    showSize: true,
+    showQuickJumper: true,
+    current: curPage,
+    pageSize,
+    total: totalRow,
+    showTotal: (total: number, range: number) => {
+      return `第${curPage}/${totalPage}页 每页 ${pageSize} 项 共 ${total} 项`;
+    },
+    onChange
+  };
+};
+
+/**
+ * 键值对转对象
+ * @param {String} str
+ * @param {String} key
+ */
+export const getParam = (str: string, key?: string) => {
+  var __o: TypeGlobal.TypeAnyObject = {};
+  var __strArr: string[] = str.split('&');
+  var __cValue: string = '';
+
+  for (var i = __strArr.length - 1; i >= 0; i--) {
+    var __d = __strArr[i].split('=');
+    var __k = decodeURIComponent(__d[0]);
+    var __v = decodeURIComponent(__d[1]);
+
+    __cValue = __o[__k];
+
+    if (__cValue) {
+      if (typeof __cValue === 'string') {
+        __o[__k] = [__cValue, __v];
+      } else {
+        __o[__k].push(__v);
+      }
+    } else {
+      __o[__k] = __v;
+    }
+  }
+  return key ? __o[key] : __o;
+};
+
+/**
+ * 键值对转对象 search
+ * @param {*} str
+ * @param {*} key
+ */
+export const getParamBySearchString = (str: string, key?: string) => {
+  if (str) {
+    str = str.substr(1);
+    return getParam(str, key);
+  } else {
+    return {};
+  }
+};
+
+/**
+ * 对象格式转成字符串
+ * @param {Object} obj
+ */
+export const parseObject2search = (obj: { [index: string]: any }) => {
+  let __s: string[] = [];
+  let __ss: string = '';
+
+  Object.keys(obj).forEach((key) => {
+    let __value: string | [] = obj[key];
+    let __v: string = '';
+    if (Array.isArray(__value)) {
+      __value.forEach((str) => {
+        if (str) {
+          __s.push(`${key}=${encodeURIComponent(str)}`);
+        }
+      });
+    } else {
+      __v = __value;
+      __s.push(`${key}=${encodeURIComponent(__v)}`);
+    }
+  });
+
+  if (__s.length) {
+    __ss = `?${__s.join('&')}`;
+  }
+
+  return __ss;
 };

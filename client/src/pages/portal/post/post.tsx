@@ -148,7 +148,7 @@ class Node extends PureComponent<Props, State> {
           <FormItem label="分类">
             {getFieldDecorator('category_id', {
               rules: [{ required: true, message: '请选择分类' }],
-              initialValue: CurBlog.category_id + ''
+              initialValue: CurBlog.category_id ? CurBlog.category_id + '' : null
             })(
               <Select>
                 {Categorys.map((c) => {
