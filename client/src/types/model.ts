@@ -13,7 +13,7 @@ export interface TypeUserModel {
   location?: string;
 }
 
-// 日记的基础类型
+// 文字的基础类型
 export interface TypeBlogModel {
   id: number;
   title: string;
@@ -50,5 +50,8 @@ export interface TypePagerModel<T = any> {
   pages: number;
 }
 
-// 日记分页基础类型
+// 文字分页基础类型
 export type TypeBlogPagerModel = TypePagerModel<TypeBlogModel>;
+
+// 类目分页基础类型
+export type TypeCategoryPagerModel = TypePagerModel<TypeCategoryModel>;

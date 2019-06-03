@@ -13,6 +13,7 @@ import * as Store from '../../store';
 const PageHome = Loadable(() => import('./home/home'));
 const PageUserList = Loadable(() => import('./user-list/user-list'));
 const PageBlogList = Loadable(() => import('./blog-list/blog-list'));
+const PageCategoryList = Loadable(() => import('./category-list/category-list'));
 
 const Page404: React.SFC = () => {
   return <ErrorPage code="403" />;
@@ -48,6 +49,14 @@ const Routes: {
     component: PageBlogList,
     isMenu: true,
     name: '文章管理',
+    icon: 'book'
+  },
+  {
+    path: '/category/list',
+    exact: true,
+    component: PageCategoryList,
+    isMenu: true,
+    name: '分类管理',
     icon: 'book'
   }
 ];

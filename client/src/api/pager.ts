@@ -7,3 +7,9 @@ export const GetBlogPager = (params: any) => {
     params
   });
 };
+
+export const GetCategoryPager = (params: any) => {
+  return Ajax.get<TypeModel.TypeCategoryModel>('/api/category/pager', {
+    params
+  });
+};

@@ -12,13 +12,14 @@ interface TypePagerState {
   isFetching: boolean;
   type: string;
   BlogPager: TypeModel.TypeBlogPagerModel;
+  CategoryPager: TypeModel.TypeCategoryPagerModel;
   CurBlog: TypeModel.TypeBlogModel;
   CurUser: TypeModel.TypeUserModel;
 }
 
 // 总共有多少个pager
-type TypePagerSets = '' | 'BlogPager' | 'UserPager';
-type TypeCurSets = '' | 'CurBlog' | 'CurUser';
+type TypePagerSets = '' | 'BlogPager' | 'UserPager' | 'CategoryPager';
+type TypeCurSets = '' | 'CurBlog' | 'CurUser' | 'CurCategory';
 
 // GetPager 的 params
 type TypeGetPagerParams<T = any> = {
@@ -55,6 +56,7 @@ const initState: TypePagerState = {
   isFetching: false,
   type: '',
   BlogPager: {} as TypeModel.TypeBlogPagerModel,
+  CategoryPager: {} as TypeModel.TypeCategoryPagerModel,
   CurBlog: {} as TypeModel.TypeBlogModel,
   CurUser: {} as TypeModel.TypeUserModel
 };
@@ -134,11 +136,20 @@ export default createModel({
 
       Pager.UpdateFetch(false);
     },
-    // 日记分页
+    // 文章分页
     async GetBlogPager(params: any) {
       const param: TypeGetPagerParams<TypeModel.TypeBlogPagerModel> = {
         type: 'BlogPager',
         fn: ApiPager.GetBlogPager,
+        params: params
+      };
+      Pager.GetPager(param);
+    },
+    // 类目分页
+    async GetCategoryPager(params: any) {
+      const param: TypeGetPagerParams<TypeModel.TypeCategoryModel> = {
+        type: 'CategoryPager',
+        fn: ApiPager.GetCategoryPager,
         params: params
       };
       Pager.GetPager(param);

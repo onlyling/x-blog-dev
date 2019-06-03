@@ -22,4 +22,14 @@ export default class MainController extends Controller {
 
     ctx.body = await service.category.GetAll();
   }
+
+  /**
+   * GetPager 日记分页
+   */
+  public async GetPager() {
+    const { ctx } = this;
+    const { service } = ctx;
+
+    ctx.body = await service.category.GetPager(ctx.request.query);
+  }
 }

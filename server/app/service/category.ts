@@ -68,4 +68,21 @@ export default class MainService extends Service {
       return helper.ApiError('没有适合的数据');
     }
   }
+
+  /**
+   * GetPager
+   */
+  public async GetPager({ curpage = 1, pagesize = 10 }): Promise<TypeApiBaseResponse> {
+    const { ctx } = this;
+    const { helper, model } = ctx;
+
+    const data = await model.Category.findAndCountAll({
+      where: {},
+      limit: pagesize,
+      offset: (curpage - 1) * pagesize,
+      order: [['created_at', 'DESC']]
+    });
+
+    return helper.ApiSuccess(helper.formatPagerDate(data, curpage, pagesize));
+  }
 }

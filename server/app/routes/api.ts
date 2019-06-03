@@ -32,6 +32,7 @@ export default (app: Application) => {
   // 类目项目
   router.post(FixApiPath('/category/one'), controller.api.category.PostOne);
   router.get(FixApiPath('/category/all'), controller.api.category.GetAll);
+  router.get(FixApiPath('/category/pager'), controller.api.category.GetPager);
 
   // 文章项目
   router.post(FixApiPath('/blog/one'), userRequired, controller.api.blog.PostOne);
