@@ -93,7 +93,7 @@ class Node<T> extends React.Component<T & RouteComponentProps> {
         // 可能是洁癖在作祟
         page = '';
       }
-      self.$putQueryData('pageNo', page);
+      self.$putQueryData('curpage', page);
     });
   };
 

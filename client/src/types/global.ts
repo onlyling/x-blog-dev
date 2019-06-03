@@ -9,8 +9,8 @@ export type TypeAnyObject<T = any> = {
  * 分页
  */
 export type TypePagerParam = {
-  curPage: number;
-  pageSize: number;
-  totalRow: number;
-  totalPage: number;
+  curpage: number;
+  pagesize: number;
+  totals: number;
+  pages: number;
 };

@@ -114,6 +114,7 @@ class Node extends BaseList<Props> {
           })}
           loading={Pager.isFetching}
           dataSource={Pager.BlogPager.list}
+          pagination={self.$getPager(Pager.BlogPager, false)}
         />
       </Card>
     );

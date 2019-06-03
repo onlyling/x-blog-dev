@@ -1,5 +1,7 @@
 import * as TypeMoel from './types/model';
 import * as TypeGlobal from './types/global';
+import { PaginationConfig } from 'antd/lib/pagination';
+import { ReactNode } from 'react';
 
 /**
  * 匹配的路径
@@ -73,18 +75,18 @@ export const formatTime = (t: string, format = 'yyyy-MM-dd hh:mm:ss') => {
  * @param {Function} onChange
  */
 export const getPager = (
-  { curPage = 1, pageSize = 10, totalRow = 0, totalPage = 0 }: TypeGlobal.TypePagerParam,
-  onChange: (page: number | string, pageSize?: number) => void
-) => {
+  { curpage = 1, pagesize = 10, totals = 0, pages = 0 }: TypeGlobal.TypePagerParam,
+  onChange: (page: number | string, pagesize?: number) => void
+): PaginationConfig => {
   return {
     size: 'small',
-    showSize: true,
+    // showSize: true,
     showQuickJumper: true,
-    current: curPage,
-    pageSize,
-    total: totalRow,
-    showTotal: (total: number, range: number) => {
-      return `第${curPage}/${totalPage}页 每页 ${pageSize} 项 共 ${total} 项`;
+    current: curpage,
+    pageSize: pagesize,
+    total: totals,
+    showTotal: (total: number, range: [number, number]): ReactNode => {
+      return `第${curpage}/${pages}页 每页 ${pagesize} 项 共 ${total} 项`;
     },
     onChange
   };
