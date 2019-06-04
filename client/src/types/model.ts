@@ -31,7 +31,7 @@ export interface TypeBlogModel {
 
 // 类目的基础类型
 export interface TypeCategoryModel {
-  id: number;
+  id?: number;
   name: string;
 }
 

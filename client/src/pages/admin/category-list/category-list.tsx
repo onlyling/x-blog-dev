@@ -2,9 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps, Link } from 'react-router-dom';
 
-import { Card, Table, Divider } from 'antd';
+import { Card, Table, Divider, Button } from 'antd';
 
 import BaseList from '../../../components/base-list/base-list';
+import Modal from './modal';
 
 import { ColumnProps } from 'antd/lib/table';
 import * as TypeModel from '../../../types/model';
@@ -29,10 +30,17 @@ type Props = ReturnType<typeof mapStateToProps> &
   RouteComponentProps;
 
 class Node extends BaseList<Props> {
+  constructor(props: Props) {
+    super(props);
+    this.Modal = React.createRef();
+  }
+
   componentDidMount() {
     this.$initQueryData();
     this.$initPage();
   }
+
+  Modal: any;
 
   $initPage = () => {
     const { GetPager } = this.props;
@@ -66,7 +74,7 @@ class Node extends BaseList<Props> {
             <React.Fragment>
               <Link to={`/category/${item.id}`}>查看文章</Link>
               <Divider type="vertical" />
-              <a>编辑</a>
+              <a onClick={this.onShowModal(item)}>编辑</a>
               <Divider type="vertical" />
               <a>删除</a>
             </React.Fragment>
@@ -78,13 +86,28 @@ class Node extends BaseList<Props> {
     return columns;
   };
 
+  onShowModal = (c: TypeModel.TypeCategoryModel) => {
+    const self = this;
+    return () => {
+      self.Modal.showModal(c);
+    };
+  };
+
   render() {
     const self = this;
     const queryData = self.$getQueryData();
     const { Pager } = self.props;
 
     return (
-      <Card bordered={false} title="类目管理">
+      <Card
+        bordered={false}
+        title="类目管理"
+        extra={
+          <Button type="primary" onClick={this.onShowModal({} as TypeModel.TypeCategoryModel)}>
+            新增类目
+          </Button>
+        }
+      >
         <Table<TypeModel.TypeCategoryModel>
           rowKey="id"
           columns={self.getColumns({
@@ -95,6 +118,7 @@ class Node extends BaseList<Props> {
           dataSource={Pager.CategoryPager.list}
           pagination={self.$getPager(Pager.CategoryPager, false)}
         />
+        <Modal wrappedComponentRef={(form: any) => (this.Modal = form)} />
       </Card>
     );
   }

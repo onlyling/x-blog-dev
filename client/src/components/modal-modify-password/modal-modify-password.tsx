@@ -33,7 +33,7 @@ const TAI_FORM_ITEM_LAYOUT = {
 };
 
 const initState = {
-  modelShow: false,
+  modalShow: false,
   fetching: false,
   id: 0
 };
@@ -51,13 +51,13 @@ class Node extends PureComponent<Props, State> {
 
   showModal = () => {
     this.setState({
-      modelShow: true
+      modalShow: true
     });
   };
 
   hideModal = () => {
     this.setState({
-      modelShow: false
+      modalShow: false
     });
   };
 
@@ -102,13 +102,13 @@ class Node extends PureComponent<Props, State> {
   };
 
   render() {
-    const { fetching, modelShow } = this.state;
+    const { fetching, modalShow } = this.state;
     const {
       form: { getFieldDecorator },
       userId
     } = this.props;
     return (
-      <Modal visible={modelShow} title="修改密码" onCancel={this.hideModal} footer={null}>
+      <Modal visible={modalShow} title="修改密码" onCancel={this.hideModal} footer={null}>
         <Form {...FORM_ITEM_LAYOUT} onSubmit={this.handlerSubmit}>
           {getFieldDecorator('id', {
             initialValue: userId

@@ -56,7 +56,7 @@ const Routes: {
     exact: true,
     component: PageCategoryList,
     isMenu: true,
-    name: '分类管理',
+    name: '类目管理',
     icon: 'book'
   }
 ];
