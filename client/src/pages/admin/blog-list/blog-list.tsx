@@ -3,8 +3,9 @@ import { connect } from 'react-redux';
 import { RouteComponentProps, Link } from 'react-router-dom';
 
 import { Card, Table, Tag } from 'antd';
-
 import BaseList from '../../../components/base-list/base-list';
+
+import * as Utils from '../../../utils';
 
 import { ColumnProps } from 'antd/lib/table';
 import * as TypeModel from '../../../types/model';
@@ -73,7 +74,7 @@ class Node extends BaseList<Props> {
         }
       },
       {
-        title: '分类',
+        title: '标签',
         dataIndex: 'tags',
         key: 'tags',
         width: 180,
@@ -84,8 +85,28 @@ class Node extends BaseList<Props> {
         }
       },
       {
+        title: '更新时间',
+        dataIndex: 'updated_at',
+        key: 'updated_at',
+        width: 120,
+        render: (i) => {
+          return Utils.formatTime(i);
+        }
+      },
+      {
+        title: '创建时间',
+        dataIndex: 'created_at',
+        key: 'created_at',
+        width: 120,
+        render: (i) => {
+          return Utils.formatTime(i);
+        }
+      },
+      {
         title: '操作',
         key: 'action',
+        fixed: 'right',
+        width: 100,
         render: (i, item) => {
           return (
             <React.Fragment>
@@ -107,6 +128,7 @@ class Node extends BaseList<Props> {
     return (
       <Card bordered={false} title="文章管理">
         <Table<TypeModel.TypeBlogModel>
+          scroll={{ x: 1100 }}
           rowKey="id"
           columns={self.getColumns({
             order: queryData.orderRule || '',

@@ -14,6 +14,32 @@ export default class MainController extends Controller {
   }
 
   /**
+   * PutOne
+   */
+  public async PutOne() {
+    const { ctx } = this;
+    const {
+      service,
+      request: { body }
+    } = ctx;
+
+    ctx.body = await service.category.PutOne({
+      name: body.name,
+      id: body.id
+    });
+  }
+
+  /**
+   * DeleteOne
+   */
+  public async DeleteOne() {
+    const { ctx } = this;
+    const { service } = ctx;
+
+    ctx.body = await service.category.DeleteOne(+ctx.request.query.id);
+  }
+
+  /**
    * GetAll
    */
   public async GetAll() {

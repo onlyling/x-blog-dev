@@ -1,13 +1,12 @@
-import { Context, Request, PlainObject } from 'egg';
+import { Context } from 'egg';
 
-interface TypeRequest extends Request {
-  query: PlainObject<any>;
-}
+// interface TypeRequest extends Request {
+//   query: PlainObject<any>;
+// }
 
 export default () => {
   return async (ctx: Context, next: any): Promise<void> => {
-    const request = ctx.request as TypeRequest;
-    const { query } = request;
+    const query = ctx.query;
 
     // 部分参数格式化
     if (query.curpage) {
@@ -16,6 +15,9 @@ export default () => {
     if (query.pagesize) {
       query.pagesize = +query.pagesize;
     }
+
+    // const request = ctx.request as TypeRequest;
+    // const { query } = request;
 
     console.log(ctx.request.query);
     console.log(ctx.query);

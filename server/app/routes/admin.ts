@@ -18,4 +18,6 @@ export default (app: Application) => {
 
   // 目录
   router.post(FixApiPath('/category/one'), adminRequired, controller.api.category.PostOne);
+  router.put(FixApiPath('/category/one'), adminRequired, controller.api.category.PutOne);
+  router.delete(FixApiPath('/category/one'), adminRequired, controller.api.category.DeleteOne);
 };

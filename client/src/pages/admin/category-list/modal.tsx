@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 
-import { Form, Input, Button, message, Modal } from 'antd';
+import { Form, Input, Button, notification, Modal } from 'antd';
 
 import * as APICategory from '../../../api/category';
 
@@ -53,6 +53,21 @@ class Node extends PureComponent<Props, State> {
   }
 
   showModal = (c: TypeModel.TypeCategoryModel) => {
+    const {
+      form: { setFieldsValue }
+    } = this.props;
+    setFieldsValue(
+      !!c.id
+        ? {
+            id: c.id,
+            name: c.name
+          }
+        : {
+            id: '',
+            name: ''
+          }
+    );
+
     this.setState({
       modalShow: true,
       id: c.id || 0
@@ -89,7 +104,9 @@ class Node extends PureComponent<Props, State> {
       const data = await doAjax(values);
 
       if (data.success) {
-        message.success('操作成功');
+        notification.success({
+          message: `${values.name} 类目已${isEdit ? '更新' : '添加'}`
+        });
         self.hideModal();
 
         okCallBack && okCallBack(isEdit);

@@ -19,6 +19,23 @@ export default class MainService extends Service {
   }
 
   /**
+   * PutOne
+   */
+  public async PutOne({ id, name = '' }: TypeCategoryParams): Promise<TypeApiBaseResponse> {
+    const { ctx } = this;
+    const { helper } = ctx;
+
+    if (!!!id) {
+      return helper.ApiError('id 必填');
+    }
+
+    return this.SaveCategory({
+      id,
+      name
+    });
+  }
+
+  /**
    * SaveCategory
    */
   public async SaveCategory({ id, name = '' }: TypeCategoryParams): Promise<TypeApiBaseResponse> {
@@ -29,19 +46,39 @@ export default class MainService extends Service {
       return helper.ApiError('name 必填');
     }
 
-    if (id) {
-      // 修改类目
-      return helper.ApiSuccess('测试');
-    } else {
-      // 方式同名
-      const sameNameInstance = await model.Category.findOne({
+    // 方式同名
+    const sameNameInstance = await model.Category.findOne({
+      where: {
+        name
+      }
+    });
+    if (!!!id && !!sameNameInstance) {
+      return helper.ApiError('已存在同名类目');
+    }
+
+    if (!!sameNameInstance && sameNameInstance.id != id) {
+      return helper.ApiError('已存在同名类目');
+    }
+
+    if (!!id) {
+      const instance = await model.Category.findOne({
         where: {
-          name
+          id: id
         }
       });
-      if (sameNameInstance) {
-        return helper.ApiError('已存在同名类目');
+
+      if (!!!instance) {
+        // 没有就去创建
+        return this.PostOne({ name });
       }
+
+      // 修改类目
+      await instance.update({
+        name
+      });
+
+      return helper.ApiSuccess(instance);
+    } else {
       // 保存类目
       const instance = await model.Category.create({
         name
@@ -52,6 +89,39 @@ export default class MainService extends Service {
         return helper.ApiError('创建类目失败');
       }
     }
+  }
+
+  /**
+   * DeleteOne
+   */
+  public async DeleteOne(id: number) {
+    const { ctx } = this;
+    const { helper, model } = ctx;
+
+    const instance = await model.Category.findOne({
+      where: {
+        id: id
+      }
+    });
+
+    if (!!!instance) {
+      return helper.ApiError('类目不存在');
+    }
+
+    const blogs = await model.Blog.findAll({
+      where: {
+        category_id: id
+      }
+    });
+
+    // 如果还有文章
+    if (!!blogs && blogs.length > 0) {
+      return helper.ApiError(`该类目下还有 ${blogs.length} 篇文章`);
+    }
+
+    await instance.destroy();
+
+    return helper.ApiSuccess('操作成功');
   }
 
   /**

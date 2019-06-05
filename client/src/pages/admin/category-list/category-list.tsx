@@ -2,14 +2,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps, Link } from 'react-router-dom';
 
-import { Card, Table, Divider, Button } from 'antd';
-
+import { Card, Table, Divider, Button, Modal, notification } from 'antd';
 import BaseList, { TypeQueryData } from '../../../components/base-list/base-list';
-import Modal from './modal';
+import ModalInput from './modal';
+
+import * as Utils from '../../../utils';
+import * as APICategory from '../../../api/category';
 
 import { ColumnProps } from 'antd/lib/table';
 import * as TypeModel from '../../../types/model';
 import * as Store from '../../../store';
+import { async } from 'q';
 
 const mapStateToProps = ({ Pager }: Store.iRootState) => ({
   Pager: Pager
@@ -65,6 +68,24 @@ class Node extends BaseList<Props> {
         key: 'name'
       },
       {
+        title: '更新时间',
+        dataIndex: 'updated_at',
+        key: 'updated_at',
+        width: 120,
+        render: (i) => {
+          return Utils.formatTime(i);
+        }
+      },
+      {
+        title: '创建时间',
+        dataIndex: 'created_at',
+        key: 'created_at',
+        width: 120,
+        render: (i) => {
+          return Utils.formatTime(i);
+        }
+      },
+      {
         title: '操作',
         dataIndex: 'action',
         key: 'action',
@@ -76,7 +97,7 @@ class Node extends BaseList<Props> {
               <Divider type="vertical" />
               <a onClick={this.onShowModal(item)}>编辑</a>
               <Divider type="vertical" />
-              <a>删除</a>
+              <a onClick={this.onDelete(item)}>删除</a>
             </React.Fragment>
           );
         }
@@ -107,6 +128,29 @@ class Node extends BaseList<Props> {
     self.$initPage();
   };
 
+  onDelete = (item: TypeModel.TypeCategoryModel) => {
+    const self = this;
+    const cName = item.name;
+
+    return () => {
+      Modal.confirm({
+        title: '提示',
+        content: `真的要删除 ${cName} 吗？`,
+        onOk: async () => {
+          const data = await APICategory.DeleteOne(item.id);
+
+          if (data.success) {
+            self.$initPage();
+
+            notification.success({
+              message: `${cName} 已删除`
+            });
+          }
+        }
+      });
+    };
+  };
+
   render() {
     const self = this;
     const queryData = self.$getQueryData();
@@ -132,7 +176,7 @@ class Node extends BaseList<Props> {
           dataSource={Pager.CategoryPager.list}
           pagination={self.$getPager(Pager.CategoryPager, false)}
         />
-        <Modal wrappedComponentRef={(form: any) => (this.Modal = form)} okCallBack={self.onModalSuccess} />
+        <ModalInput wrappedComponentRef={(form: any) => (this.Modal = form)} okCallBack={self.onModalSuccess} />
       </Card>
     );
   }
