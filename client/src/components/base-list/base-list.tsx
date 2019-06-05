@@ -6,13 +6,17 @@ import { RouteComponentProps } from 'react-router-dom';
 import { PaginationConfig } from 'antd/lib/pagination/Pagination';
 import * as TypeGlobal from '../../types/global';
 
+export type TypeQueryData = {
+  curpage?: number | string;
+  pagesize?: number;
+  [index: string]: any;
+};
+
 class Node<T> extends React.Component<T & RouteComponentProps> {
   /**
    * 表单数据
    */
-  $__QueryData__: {
-    [index: string]: any;
-  } = {};
+  $__QueryData__: TypeQueryData = {};
 
   /**
    * 是否是函数操作的，避免链接的进入，导致 $__QueryData__ 与 search 不同步
@@ -31,8 +35,8 @@ class Node<T> extends React.Component<T & RouteComponentProps> {
   /**
    * 获取表单数据
    */
-  $getQueryData = (key?: string) => {
-    if (key) {
+  $getQueryData = (key?: string): TypeQueryData | any => {
+    if (!!key) {
       return this.$__QueryData__[key] || '';
     } else {
       return this.$__QueryData__;

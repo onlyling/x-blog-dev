@@ -2,8 +2,11 @@ import React, { PureComponent } from 'react';
 
 import { Form, Input, Button, message, Modal } from 'antd';
 
+import * as APICategory from '../../../api/category';
+
 import { FormComponentProps } from 'antd/lib/form/Form';
 import * as TypeModel from '../../../types/model';
+import * as TypeParam from '../../../types/param';
 
 const FormItem = Form.Item;
 
@@ -37,7 +40,10 @@ const initState = {
   id: 0
 };
 
-type Props = FormComponentProps & {};
+type Props = FormComponentProps & {
+  okCallBack?: (isEdit: boolean) => void;
+  noCallBack?: Function;
+};
 type State = typeof initState;
 
 class Node extends PureComponent<Props, State> {
@@ -64,15 +70,36 @@ class Node extends PureComponent<Props, State> {
 
     const self = this;
     const {
-      form: { validateFieldsAndScroll }
+      form: { validateFieldsAndScroll },
+      okCallBack,
+      noCallBack
     } = self.props;
 
-    validateFieldsAndScroll((err, values: TypeModel.TypeCategoryModel) => {
+    validateFieldsAndScroll(async (err, values: TypeParam.TypeCategoryParam) => {
       if (err) {
         return false;
       }
 
-      console.log(values);
+      self.setState({
+        fetching: true
+      });
+
+      const isEdit = !!values.id;
+      const doAjax = isEdit ? APICategory.PutOne : APICategory.PostOne;
+      const data = await doAjax(values);
+
+      if (data.success) {
+        message.success('操作成功');
+        self.hideModal();
+
+        okCallBack && okCallBack(isEdit);
+      } else {
+        noCallBack && noCallBack();
+      }
+
+      self.setState({
+        fetching: false
+      });
     });
   };
 

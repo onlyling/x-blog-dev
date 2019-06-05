@@ -4,7 +4,7 @@ import { RouteComponentProps, Link } from 'react-router-dom';
 
 import { Card, Table, Divider, Button } from 'antd';
 
-import BaseList from '../../../components/base-list/base-list';
+import BaseList, { TypeQueryData } from '../../../components/base-list/base-list';
 import Modal from './modal';
 
 import { ColumnProps } from 'antd/lib/table';
@@ -93,6 +93,20 @@ class Node extends BaseList<Props> {
     };
   };
 
+  onModalSuccess = (isEdit: boolean) => {
+    const self = this;
+    const queryData: TypeQueryData = self.$getQueryData();
+
+    if (!isEdit) {
+      if (!!queryData.curpage && queryData.curpage > 1) {
+        queryData.curpage = '';
+        self.$putQueryData(queryData);
+      }
+    }
+
+    self.$initPage();
+  };
+
   render() {
     const self = this;
     const queryData = self.$getQueryData();
@@ -118,7 +132,7 @@ class Node extends BaseList<Props> {
           dataSource={Pager.CategoryPager.list}
           pagination={self.$getPager(Pager.CategoryPager, false)}
         />
-        <Modal wrappedComponentRef={(form: any) => (this.Modal = form)} />
+        <Modal wrappedComponentRef={(form: any) => (this.Modal = form)} okCallBack={self.onModalSuccess} />
       </Card>
     );
   }

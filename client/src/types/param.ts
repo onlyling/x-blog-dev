@@ -18,3 +18,8 @@ export type TypeBlogParam = {
   tags: number[];
   markdown_content: string;
 };
+
+export type TypeCategoryParam = {
+  id?: number;
+  name: string;
+};

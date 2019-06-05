@@ -30,7 +30,6 @@ export default (app: Application) => {
   router.get(FixApiPath('/tag/all'), controller.api.tag.GetAll);
 
   // 类目项目
-  router.post(FixApiPath('/category/one'), controller.api.category.PostOne);
   router.get(FixApiPath('/category/all'), controller.api.category.GetAll);
   router.get(FixApiPath('/category/pager'), controller.api.category.GetPager);
 
@@ -38,5 +37,5 @@ export default (app: Application) => {
   router.post(FixApiPath('/blog/one'), userRequired, controller.api.blog.PostOne);
   router.get(FixApiPath('/blog/pager'), controller.api.blog.GetPager);
   router.get(FixApiPath('/blog/one'), controller.api.blog.GetOne);
-  router.put(FixApiPath('/blog/one'), controller.api.blog.PutOne);
+  router.put(FixApiPath('/blog/one'), userRequired, controller.api.blog.PutOne);
 };

@@ -79,7 +79,7 @@ export default class MainController extends Controller {
     const { ctx } = this;
     const { helper } = ctx;
 
-    ctx.session.UserInfo = {};
+    ctx.session.UserInfo = {} as TypeUserModelAttributes;
 
     ctx.body = helper.ApiSuccess('已退出');
   }

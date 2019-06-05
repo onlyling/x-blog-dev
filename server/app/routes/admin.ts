@@ -9,8 +9,13 @@ const FixApiPath = (p: string): string => {
 };
 
 export default (app: Application) => {
-  const { controller, router } = app;
+  const { controller, router, middleware } = app;
+
+  const adminRequired = middleware.adminRequired();
 
   // 用户相关
   router.post(FixApiPath('/user/login'), controller.admin.user.PostLogin);
+
+  // 目录
+  router.post(FixApiPath('/category/one'), adminRequired, controller.api.category.PostOne);
 };
