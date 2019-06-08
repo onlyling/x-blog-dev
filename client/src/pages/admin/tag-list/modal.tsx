@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 
 import { Form, Input, Button, notification, Modal } from 'antd';
 
-import * as APICategory from '../../../api/category';
+import * as APITag from '../../../api/tag';
 
 import { FormComponentProps } from 'antd/lib/form/Form';
 import * as TypeModel from '../../../types/model';
@@ -52,7 +52,7 @@ class Node extends PureComponent<Props, State> {
     this.state = initState;
   }
 
-  showModal = (c: TypeModel.TypeCategoryModel) => {
+  showModal = (c: TypeModel.TypeTagModel) => {
     const {
       form: { setFieldsValue }
     } = this.props;
@@ -90,7 +90,7 @@ class Node extends PureComponent<Props, State> {
       noCallBack
     } = self.props;
 
-    validateFieldsAndScroll(async (err, values: TypeParam.TypeCategoryParam) => {
+    validateFieldsAndScroll(async (err, values: TypeParam.TypeTagParam) => {
       if (err) {
         return false;
       }
@@ -100,12 +100,12 @@ class Node extends PureComponent<Props, State> {
       });
 
       const isEdit = !!values.id;
-      const doAjax = isEdit ? APICategory.PutOne : APICategory.PostOne;
+      const doAjax = isEdit ? APITag.PutOne : APITag.PostOne;
       const data = await doAjax(values);
 
       if (data.success) {
         notification.success({
-          message: `${values.name} 类目已${isEdit ? '更新' : '添加'}`
+          message: `${values.name} 分类已${isEdit ? '更新' : '添加'}`
         });
         self.hideModal();
 

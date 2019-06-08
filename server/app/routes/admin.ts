@@ -20,4 +20,9 @@ export default (app: Application) => {
   router.post(FixApiPath('/category/one'), adminRequired, controller.api.category.PostOne);
   router.put(FixApiPath('/category/one'), adminRequired, controller.api.category.PutOne);
   router.delete(FixApiPath('/category/one'), adminRequired, controller.api.category.DeleteOne);
+
+  // 标签
+  router.post(FixApiPath('/tag/one'), adminRequired, controller.api.tag.PostOne);
+  router.put(FixApiPath('/tag/one'), adminRequired, controller.api.tag.PutOne);
+  router.delete(FixApiPath('/tag/one'), adminRequired, controller.api.tag.DeleteOne);
 };

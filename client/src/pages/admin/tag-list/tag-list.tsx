@@ -6,8 +6,7 @@ import { Card, Table, Divider, Button, Modal, notification } from 'antd';
 import BaseList, { TypeQueryData } from '../../../components/base-list/base-list';
 import ModalInput from './modal';
 
-import * as Utils from '../../../utils';
-import * as APICategory from '../../../api/category';
+import * as APITag from '../../../api/tag';
 
 import { ColumnProps } from 'antd/lib/table';
 import * as TypeModel from '../../../types/model';
@@ -53,7 +52,7 @@ class Node extends BaseList<Props> {
   };
 
   getColumns = ({ order = '', field = '' }) => {
-    const columns: ColumnProps<TypeModel.TypeCategoryModel>[] = [
+    const columns: ColumnProps<TypeModel.TypeTagModel>[] = [
       {
         title: '编号',
         dataIndex: 'id',
@@ -86,7 +85,7 @@ class Node extends BaseList<Props> {
     return columns;
   };
 
-  onShowModal = (c: TypeModel.TypeCategoryModel) => {
+  onShowModal = (c: TypeModel.TypeTagModel) => {
     const self = this;
     return () => {
       self.Modal.showModal(c);
@@ -107,7 +106,7 @@ class Node extends BaseList<Props> {
     self.$initPage();
   };
 
-  onDelete = (item: TypeModel.TypeCategoryModel) => {
+  onDelete = (item: TypeModel.TypeTagModel) => {
     const self = this;
     const cName = item.name;
 
@@ -116,7 +115,7 @@ class Node extends BaseList<Props> {
         title: '提示',
         content: `真的要删除 ${cName} 吗？`,
         onOk: async () => {
-          const data = await APICategory.DeleteOne(item.id);
+          const data = await APITag.DeleteOne(item.id);
 
           if (data.success) {
             self.$initPage();
@@ -140,12 +139,12 @@ class Node extends BaseList<Props> {
         bordered={false}
         title="标签管理"
         extra={
-          <Button type="primary" onClick={this.onShowModal({} as TypeModel.TypeCategoryModel)}>
+          <Button type="primary" onClick={this.onShowModal({} as TypeModel.TypeTagModel)}>
             新增类目
           </Button>
         }
       >
-        <Table<TypeModel.TypeCategoryModel>
+        <Table<TypeModel.TypeTagModel>
           rowKey="id"
           columns={self.getColumns({
             order: queryData.orderRule || '',

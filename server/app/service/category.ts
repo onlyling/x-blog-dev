@@ -98,6 +98,10 @@ export default class MainService extends Service {
     const { ctx } = this;
     const { helper, model } = ctx;
 
+    if (!!!id) {
+      return helper.ApiError('id 必填');
+    }
+
     const instance = await model.Category.findOne({
       where: {
         id: id
