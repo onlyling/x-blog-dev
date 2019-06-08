@@ -15,6 +15,7 @@ export default (app: Application) => {
 
   // 用户相关
   router.post(FixApiPath('/user/login'), controller.admin.user.PostLogin);
+  router.get(FixApiPath('/user/pager'), controller.api.user.GetPager);
 
   // 目录
   router.post(FixApiPath('/category/one'), adminRequired, controller.api.category.PostOne);

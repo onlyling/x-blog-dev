@@ -128,7 +128,7 @@ class Node extends BaseList<Props> {
     return (
       <Card bordered={false} title="文章管理">
         <Table<TypeModel.TypeBlogModel>
-          scroll={{ x: 1100 }}
+          scroll={{ x: 1500 }}
           rowKey="id"
           columns={self.getColumns({
             order: queryData.orderRule || '',

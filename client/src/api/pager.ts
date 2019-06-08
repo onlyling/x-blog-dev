@@ -31,3 +31,13 @@ export const GetTagPager = (params: any) => {
     params
   });
 };
+
+/**
+ * 用户分页
+ * @param params
+ */
+export const GetUserPager = (params: any) => {
+  return Ajax.get<TypeModel.TypeUserModel>('/admin/user/pager', {
+    params
+  });
+};

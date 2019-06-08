@@ -58,3 +58,6 @@ export type TypeCategoryPagerModel = TypePagerModel<TypeCategoryModel>;
 
 // 标签分页基础类型
 export type TypeTagPagerModel = TypePagerModel<TypeTagModel>;
+
+// 用户分页基础类型
+export type TypeUserPagerModel = TypePagerModel<TypeUserModel>;

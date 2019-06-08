@@ -219,4 +219,29 @@ export default class MainService extends Service {
 
     return helper.ApiSuccess('修改密码成功');
   }
+
+  /**
+   * GetPager
+   */
+  public async GetPager({ curpage = 1, pagesize = 10, name = '' }) {
+    const { ctx } = this;
+    const { helper, model, app } = ctx;
+    const { Sequelize } = app;
+
+    const data = await model.User.findAndCountAll({
+      where: name
+        ? {
+            name: {
+              [Sequelize.Op.like]: `%${name}%`
+            }
+          }
+        : {},
+      limit: pagesize,
+      offset: (curpage - 1) * pagesize,
+      order: [['created_at', 'DESC']],
+      attributes: { exclude: ['password'] }
+    });
+
+    return helper.ApiSuccess(helper.formatPagerDate(data, curpage, pagesize));
+  }
 }

@@ -14,6 +14,7 @@ interface TypePagerState {
   BlogPager: TypeModel.TypeBlogPagerModel;
   CategoryPager: TypeModel.TypeCategoryPagerModel;
   TagPager: TypeModel.TypeTagPagerModel;
+  UserPager: TypeModel.TypeUserPagerModel;
   CurBlog: TypeModel.TypeBlogModel;
   CurUser: TypeModel.TypeUserModel;
 }
@@ -59,6 +60,7 @@ const initState: TypePagerState = {
   BlogPager: {} as TypeModel.TypeBlogPagerModel,
   CategoryPager: {} as TypeModel.TypeCategoryPagerModel,
   TagPager: {} as TypeModel.TypeTagPagerModel,
+  UserPager: {} as TypeModel.TypeUserPagerModel,
   CurBlog: {} as TypeModel.TypeBlogModel,
   CurUser: {} as TypeModel.TypeUserModel
 };
@@ -161,6 +163,15 @@ export default createModel({
       const param: TypeGetPagerParams<TypeModel.TypeTagModel> = {
         type: 'TagPager',
         fn: ApiPager.GetTagPager,
+        params: params
+      };
+      Pager.GetPager(param);
+    },
+    // 用户分页
+    async GetUserPager(params: any) {
+      const param: TypeGetPagerParams<TypeModel.TypeUserModel> = {
+        type: 'UserPager',
+        fn: ApiPager.GetUserPager,
         params: params
       };
       Pager.GetPager(param);

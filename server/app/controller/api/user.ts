@@ -83,4 +83,14 @@ export default class MainController extends Controller {
 
     ctx.body = helper.ApiSuccess('已退出');
   }
+
+  /**
+   * GetPager 用户分页
+   */
+  public async GetPager() {
+    const { ctx } = this;
+    const { service } = ctx;
+
+    ctx.body = await service.user.GetPager(ctx.request.query);
+  }
 }
