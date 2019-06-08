@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 
 import { Form, Input, Button, message, Modal } from 'antd';
-import * as ApiUser from '../../api/user';
+import * as APIUser from '../../api/user';
 
 import { FormComponentProps } from 'antd/lib/form/Form';
 import * as TypeParam from '../../types/param';
@@ -82,7 +82,7 @@ class Node extends PureComponent<Props, State> {
         fetching: true
       });
 
-      const data = await ApiUser.PutUserPassword(values);
+      const data = await APIUser.PutUserPassword(values);
 
       if (data.success) {
         message.success('操作成功');

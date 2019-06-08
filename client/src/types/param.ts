@@ -19,7 +19,18 @@ export type TypeBlogParam = {
   markdown_content: string;
 };
 
+/**
+ * 新增/编辑类目参数
+ */
 export type TypeCategoryParam = {
+  id?: number;
+  name: string;
+};
+
+/**
+ * 新增/编辑标签参数
+ */
+export type TypeTagParam = {
   id?: number;
   name: string;
 };

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link, Redirect, withRouter, RouteComponentProps } from 'react-router-dom';
 
 import { Typography, Form, Icon, Input, Button, message } from 'antd';
-import * as ApiUser from '../../api/user';
+import * as APIUser from '../../api/user';
 
 import { FormComponentProps } from 'antd/lib/form/Form';
 import * as Store from '../../store';
@@ -67,7 +67,7 @@ class Node extends PureComponent<Props, typeof initState> {
         return;
       }
       self.setState({ fetching: true });
-      const doFetch = isLogin ? ApiUser.PostLogin : ApiUser.PostRegister;
+      const doFetch = isLogin ? APIUser.PostLogin : APIUser.PostRegister;
       const data = await doFetch(values);
 
       self.setState({ fetching: false });

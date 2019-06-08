@@ -1,6 +1,6 @@
 import { createModel } from '@rematch/core';
 import * as Utils from '../utils';
-import * as ApiUser from '../api/user';
+import * as APIUser from '../api/user';
 
 import * as TypeModel from '../types/model';
 import { BaseResponse } from '../axios';
@@ -31,7 +31,7 @@ export default createModel({
   },
   effects: ({ User }) => ({
     async GetUserLogout() {
-      const data = await ApiUser.GetUserLogout();
+      const data = await APIUser.GetUserLogout();
       if (data.success) {
         User.UpdateUserInfo({});
       }

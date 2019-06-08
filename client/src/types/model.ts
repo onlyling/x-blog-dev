@@ -1,6 +1,6 @@
 // 用户的基础类型
 export interface TypeUserModel {
-  id?: number;
+  id: number;
   user_name: string;
   password?: string;
   super_admin?: boolean;
@@ -31,7 +31,7 @@ export interface TypeBlogModel {
 
 // 类目的基础类型
 export interface TypeCategoryModel {
-  id?: number;
+  id: number;
   name: string;
 }
 
@@ -55,3 +55,6 @@ export type TypeBlogPagerModel = TypePagerModel<TypeBlogModel>;
 
 // 类目分页基础类型
 export type TypeCategoryPagerModel = TypePagerModel<TypeCategoryModel>;
+
+// 标签分页基础类型
+export type TypeTagPagerModel = TypePagerModel<TypeTagModel>;

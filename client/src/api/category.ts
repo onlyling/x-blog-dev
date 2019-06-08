@@ -29,7 +29,7 @@ export const PutOne = (param: TypeParam.TypeCategoryParam) => {
  * 删除类目
  * @param param
  */
-export const DeleteOne = (param?: number) => {
+export const DeleteOne = (param: number) => {
   return Ajax.delete<any>('/admin/category/one', {
     params: {
       id: param

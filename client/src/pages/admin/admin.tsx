@@ -14,6 +14,7 @@ const PageHome = Loadable(() => import('./home/home'));
 const PageUserList = Loadable(() => import('./user-list/user-list'));
 const PageBlogList = Loadable(() => import('./blog-list/blog-list'));
 const PageCategoryList = Loadable(() => import('./category-list/category-list'));
+const PageTagList = Loadable(() => import('./tag-list/tag-list'));
 
 const Page404: React.SFC = () => {
   return <ErrorPage code="403" />;
@@ -58,6 +59,14 @@ const Routes: {
     isMenu: true,
     name: '类目管理',
     icon: 'book'
+  },
+  {
+    path: '/tag/list',
+    exact: true,
+    component: PageTagList,
+    isMenu: true,
+    name: '标签管理',
+    icon: 'tag'
   }
 ];
 

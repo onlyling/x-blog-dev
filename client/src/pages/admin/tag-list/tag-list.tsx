@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { RouteComponentProps, Link } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router-dom';
 
 import { Card, Table, Divider, Button, Modal, notification } from 'antd';
 import BaseList, { TypeQueryData } from '../../../components/base-list/base-list';
@@ -20,7 +20,7 @@ const mapStateToProps = ({ Pager }: Store.iRootState) => ({
 const mapDispatchToProps = (Dispatch: any) => {
   const { Pager } = Dispatch as Store.Dispatch;
   return {
-    GetPager: Pager.GetCategoryPager
+    GetPager: Pager.GetTagPager
   };
 };
 
@@ -67,33 +67,13 @@ class Node extends BaseList<Props> {
         key: 'name'
       },
       {
-        title: '更新时间',
-        dataIndex: 'updated_at',
-        key: 'updated_at',
-        width: 120,
-        render: (i) => {
-          return Utils.formatTime(i);
-        }
-      },
-      {
-        title: '创建时间',
-        dataIndex: 'created_at',
-        key: 'created_at',
-        width: 120,
-        render: (i) => {
-          return Utils.formatTime(i);
-        }
-      },
-      {
         title: '操作',
         dataIndex: 'action',
         key: 'action',
-        width: 200,
+        width: 160,
         render: (i, item) => {
           return (
             <React.Fragment>
-              <Link to={`/category/${item.id}`}>查看文章</Link>
-              <Divider type="vertical" />
               <a onClick={this.onShowModal(item)}>编辑</a>
               <Divider type="vertical" />
               <a onClick={this.onDelete(item)}>删除</a>
@@ -158,7 +138,7 @@ class Node extends BaseList<Props> {
     return (
       <Card
         bordered={false}
-        title="类目管理"
+        title="标签管理"
         extra={
           <Button type="primary" onClick={this.onShowModal({} as TypeModel.TypeCategoryModel)}>
             新增类目
@@ -172,8 +152,8 @@ class Node extends BaseList<Props> {
             field: queryData.orderType || ''
           })}
           loading={Pager.isFetching}
-          dataSource={Pager.CategoryPager.list}
-          pagination={self.$getPager(Pager.CategoryPager, false)}
+          dataSource={Pager.TagPager.list}
+          pagination={self.$getPager(Pager.TagPager, false)}
         />
         <ModalInput wrappedComponentRef={(form: any) => (this.Modal = form)} okCallBack={self.onModalSuccess} />
       </Card>

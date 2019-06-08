@@ -1,5 +1,5 @@
 import { createModel } from '@rematch/core';
-import * as ApiTag from '../api/tag';
+import * as APITag from '../api/tag';
 
 import * as TypeModel from '../types/model';
 
@@ -22,7 +22,7 @@ export default createModel({
   },
   effects: ({ Tag }) => ({
     async GetAll() {
-      const data = await ApiTag.GetAll();
+      const data = await APITag.GetAll();
       if (data.success) {
         Tag.UpdateTags(data.data);
       }
