@@ -125,13 +125,20 @@ export default class MainService extends Service {
   /**
    * GetPager
    */
-  public async GetPager({ curpage = 1, pagesize = 10 }): Promise<TypeApiBaseResponse> {
+  public async GetPager({ curpage = 1, pagesize = 10, user_id }): Promise<TypeApiBaseResponse> {
     const { ctx } = this;
     const { helper, model } = ctx;
 
+    // 查询条件
+    let where = {};
+
+    if (user_id) {
+      where['user_id'] = user_id;
+    }
+
     const data = await model.Blog.findAndCountAll({
       distinct: true,
-      where: {},
+      where: where,
       limit: pagesize,
       offset: (curpage - 1) * pagesize,
       order: [['created_at', 'DESC']],

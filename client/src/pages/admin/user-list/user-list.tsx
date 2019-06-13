@@ -114,7 +114,7 @@ class Node extends BaseList<Props> {
         render: (i, item) => {
           return (
             <React.Fragment>
-              <Link to={`/blog/${item.id}`}>查看</Link>
+              <Link to={`/user/${item.id}`}>查看</Link>
             </React.Fragment>
           );
         }
