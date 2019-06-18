@@ -2,8 +2,8 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 
-import { Spin, Card, Form, Input, Button, Select, Checkbox, message } from 'antd';
-import * as ApiBlog from '../../../api/blog';
+import { Card, Form, Input, Button, Select, Checkbox, message } from 'antd';
+import * as APIBlog from '../../../api/blog';
 
 import { FormComponentProps } from 'antd/lib/form/Form';
 import * as Store from '../../../store';
@@ -128,7 +128,7 @@ class Node extends PureComponent<Props, State> {
         fetching: true
       });
 
-      const doAjax = values.id ? ApiBlog.PutBlog : ApiBlog.PostBlog;
+      const doAjax = values.id ? APIBlog.PutBlog : APIBlog.PostBlog;
       const data = await doAjax(values);
 
       if (data.success) {

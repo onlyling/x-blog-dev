@@ -1,5 +1,5 @@
 import { createModel } from '@rematch/core';
-import * as ApiCategory from '../api/category';
+import * as APICategory from '../api/category';
 
 import * as TypeModel from '../types/model';
 
@@ -22,7 +22,7 @@ export default createModel({
   },
   effects: ({ Category }) => ({
     async GetAll() {
-      const data = await ApiCategory.GetAll();
+      const data = await APICategory.GetAll();
       if (data.success) {
         Category.UpdateCategorys(data.data);
       }

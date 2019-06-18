@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { Card, Form, Input, Button, message } from 'antd';
-import * as ApiUser from '../../../api/user';
+import * as APIUser from '../../../api/user';
 
 import { FormComponentProps } from 'antd/lib/form/Form';
 
@@ -75,7 +75,7 @@ class Node extends PureComponent<Props, State> {
         fetching: true
       });
 
-      const data = await ApiUser.PutUserInfo(values);
+      const data = await APIUser.PutUserInfo(values);
       if (data.success) {
         UpdateUserInfo(data.data);
         message.success('操作成功');
