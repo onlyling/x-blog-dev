@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/onlyling/x-blog-dev#readme",
   "devDependencies": {
-    "commitizen": "^3.1.1",
+    "commitizen": "^3.1.2",
     "cz-customizable": "^5.10.0"
   },
   "config": {
