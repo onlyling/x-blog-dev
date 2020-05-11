@@ -1,2 +1,2 @@
-# x-blog-dev
-x-blog-dev
+# scf-blog
+scf-blog

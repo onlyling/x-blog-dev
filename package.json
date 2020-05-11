@@ -1,7 +1,7 @@
 {
-  "name": "x-blog-dev",
+  "name": "scf-blog",
   "version": "1.0.0",
-  "description": "x-blog-dev",
+  "description": "scf-blog",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
