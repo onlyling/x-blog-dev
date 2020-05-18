@@ -7,7 +7,7 @@ export default () => {
     dialect: 'mysql',
     host: '127.0.0.1',
     port: 3306,
-    database: 'blog',
+    database: 'scf-blog',
     username: 'root',
     password: '1234567890',
     timezone: '+08:00',

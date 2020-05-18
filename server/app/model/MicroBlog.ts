@@ -4,10 +4,10 @@ export default function (app: Application) {
   const { STRING, INTEGER } = app.Sequelize;
 
   /**
-   * 用户表
+   * 动态、微博表
    */
-  const User = app.model.define(
-    'User',
+  const MicroBlog = app.model.define(
+    'MicroBlog',
     {
       id: {
         type: INTEGER,
@@ -15,35 +15,37 @@ export default function (app: Application) {
         autoIncrement: true,
       },
 
-      /** 用户名 */
-      user_name: {
-        type: STRING(30),
+      /** 用户 id 关联数据 */
+      user_id: {
+        type: INTEGER,
         allowNull: false,
       },
 
-      /** 密码 */
-      password: {
-        type: STRING(255),
+      /** content */
+      content: {
+        type: STRING(1000),
         allowNull: false,
       },
 
-      /** 性别 */
-      sex: {
-        type: STRING,
+      /** 查看次数 */
+      view_count: {
+        type: INTEGER,
         allowNull: false,
-        validate: {
-          // '0': 保密；'1': 男；'2': 女;
-          isIn: [['0', '1', '2']],
-        },
-        defaultValue: '0',
+        defaultValue: 0,
+      },
+
+      /** 图片 */
+      image: {
+        type: STRING(10000),
+        allowNull: false,
       },
     },
     {
-      tableName: 'user',
+      tableName: 'micro_blog',
     },
   );
 
-  return class extends User {
+  return class extends MicroBlog {
     static associate() {
       // app.model.User.hasMany(app.model.Post, { as: 'posts' });
     }

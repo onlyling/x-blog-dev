@@ -1,9 +1,9 @@
 import { Service } from 'egg';
 
 /**
- * Test Service
+ * User Service
  */
-export default class Test extends Service {
+export default class User extends Service {
 
   /**
    * sayHi to you

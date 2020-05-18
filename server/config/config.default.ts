@@ -10,9 +10,18 @@ export default (appInfo: EggAppInfo) => {
   // add your egg config in here
   config.middleware = [];
 
+  // jwt
+  // 参数参考：https://github.com/auth0/node-jsonwebtoken#jwtverifytoken-secretorpublickey-options-callback
+  config.jwt = {
+    secret: '1234567890', // secretOrPublicKey
+    verify: {
+      maxAge: '2d', // 最大有效时间
+    },
+  };
+
   // add your special config in here
   const bizConfig = {
-    sourceUrl: `https://github.com/eggjs/examples/tree/master/${appInfo.name}`,
+    // sourceUrl: `https://github.com/eggjs/examples/tree/master/${appInfo.name}`,
   };
 
   // the return config will combines to EggAppConfig
