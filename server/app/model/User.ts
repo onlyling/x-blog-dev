@@ -1,4 +1,18 @@
 import { Application } from 'egg';
+import { Model, BuildOptions } from 'sequelize';
+
+/** 实例声明 */
+interface UserModelIntstance extends Model {
+  readonly id: number;
+  user_id: string;
+  content: string;
+  view_count: number;
+  image: string;
+}
+
+type UserModelIntstanceStatic = typeof Model & {
+  new (values?: object, options?: BuildOptions): UserModelIntstance;
+};
 
 export default function (app: Application) {
   const { STRING, INTEGER } = app.Sequelize;
@@ -41,11 +55,13 @@ export default function (app: Application) {
     {
       tableName: 'user',
     },
-  );
+  ) as UserModelIntstanceStatic;
 
-  return class extends User {
-    static associate() {
-      // app.model.User.hasMany(app.model.Post, { as: 'posts' });
-    }
-  };
+  return User;
+
+  // return class extends User {
+  //   static associate() {
+  //     // app.model.User.hasMany(app.model.Post, { as: 'posts' });
+  //   }
+  // };
 }

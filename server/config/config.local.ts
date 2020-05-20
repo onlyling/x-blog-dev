@@ -13,6 +13,25 @@ export default () => {
     timezone: '+08:00',
   };
 
+  // config.typeorm = {
+  //   type: 'mysql',
+  //   host: 'localhost',
+  //   port: 3306,
+  //   username: 'root',
+  //   password: '1234567890',
+  //   database: 'scf-blog',
+  //   synchronize: true,
+  //   logging: false,
+  //   entities: ['app/entity/**/*.ts'],
+  //   migrations: ['app/migration/**/*.ts'],
+  //   subscribers: ['app/subscriber/**/*.ts'],
+  //   cli: {
+  //     entitiesDir: 'app/entity',
+  //     migrationsDir: 'app/migration',
+  //     subscribersDir: 'app/subscriber',
+  //   },
+  // };
+
   config.security = {
     csrf: false,
   };

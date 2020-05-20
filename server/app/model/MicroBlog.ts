@@ -1,4 +1,18 @@
 import { Application } from 'egg';
+import { Model, BuildOptions } from 'sequelize';
+
+/** 实例声明 */
+interface MicroBlogModelIntstance extends Model {
+  readonly id: number;
+  user_id: string;
+  content: string;
+  view_count: number;
+  image: string;
+}
+
+type MicroBlogModelIntstanceStatic = typeof Model & {
+  new (values?: object, options?: BuildOptions): MicroBlogModelIntstance;
+};
 
 export default function (app: Application) {
   const { STRING, INTEGER } = app.Sequelize;
@@ -43,11 +57,13 @@ export default function (app: Application) {
     {
       tableName: 'micro_blog',
     },
-  );
+  ) as MicroBlogModelIntstanceStatic;
 
-  return class extends MicroBlog {
-    static associate() {
-      // app.model.User.hasMany(app.model.Post, { as: 'posts' });
-    }
-  };
+  return MicroBlog;
+
+  // return class extends MicroBlog {
+  //   static associate() {
+  //     // app.model.User.hasMany(app.model.Post, { as: 'posts' });
+  //   }
+  // } as MicroBlogModelIntstanceStatic;
 }

@@ -6,11 +6,18 @@ const plugin: EggPlugin = {
   //   enable: true,
   //   package: 'egg-view-nunjucks',
   // },
+
   // mysql ORM
   sequelize: {
     enable: true,
     package: 'egg-sequelize',
   },
+
+  // egg-typeorm
+  // typeorm: {
+  //   enable: true,
+  //   package: '@forsigner/egg-typeorm',
+  // },
 
   // JWT
   jwt: {
