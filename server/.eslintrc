@@ -5,6 +5,7 @@
   },
   "rules": {
     "space-before-function-paren": [0, "always"],
-    "array-bracket-spacing": 0
+    "array-bracket-spacing": 0,
+    "arrow-parens": 0
   }
 }

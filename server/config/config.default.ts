@@ -8,15 +8,15 @@ export default (appInfo: EggAppInfo) => {
   config.keys = appInfo.name + '_1589209631587_7631';
 
   // add your egg config in here
-  config.middleware = [];
+  config.middleware = ['errorHandler'];
 
   // jwt
   // 参数参考：https://github.com/auth0/node-jsonwebtoken#jwtverifytoken-secretorpublickey-options-callback
   config.jwt = {
     secret: '1234567890', // secretOrPublicKey
-    verify: {
-      maxAge: '2d', // 最大有效时间
-    },
+    // verify: {
+    //   maxAge: '2d', // 最大有效时间
+    // },
   };
 
   // add your special config in here

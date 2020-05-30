@@ -22,9 +22,9 @@ const APISuccess = (data: any): BaseResponse => {
  * 失败返回的数据
  * @param data any 返回的数据
  */
-const APIFail = (data: any): BaseResponse => {
+const APIFail = (data: any, code = -1): BaseResponse => {
   const __data: BaseResponse = {
-    code: -1,
+    code,
   };
 
   if (typeof data === 'object') {

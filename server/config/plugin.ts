@@ -24,6 +24,12 @@ const plugin: EggPlugin = {
     enable: true,
     package: 'egg-jwt',
   },
+
+  // validate
+  validate: {
+    enable: true,
+    package: 'egg-validate',
+  },
 };
 
 export default plugin;

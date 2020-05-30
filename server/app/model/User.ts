@@ -4,10 +4,10 @@ import { Model, BuildOptions } from 'sequelize';
 /** 实例声明 */
 interface UserModelIntstance extends Model {
   readonly id: number;
-  user_id: string;
-  content: string;
-  view_count: number;
-  image: string;
+  user_name: string;
+  password: string;
+  sex: '0' | '1' | '2';
+  email: string;
 }
 
 type UserModelIntstanceStatic = typeof Model & {
@@ -50,6 +50,15 @@ export default function (app: Application) {
           isIn: [['0', '1', '2']],
         },
         defaultValue: '0',
+      },
+
+      /** 邮箱 */
+      email: {
+        type: STRING,
+        allowNull: false,
+        validate: {
+          isEmail: true,
+        },
       },
     },
     {
