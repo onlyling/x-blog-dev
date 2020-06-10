@@ -4,6 +4,7 @@
 import 'egg';
 import ExportHome from '../../../app/controller/home';
 import ExportAppMicroBlog from '../../../app/controller/app/micro_blog';
+import ExportAppTag from '../../../app/controller/app/tag';
 import ExportAppUser from '../../../app/controller/app/user';
 
 declare module 'egg' {
@@ -11,6 +12,7 @@ declare module 'egg' {
     home: ExportHome;
     app: {
       microBlog: ExportAppMicroBlog;
+      tag: ExportAppTag;
       user: ExportAppUser;
     }
   }

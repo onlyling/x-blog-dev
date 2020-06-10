@@ -1,10 +1,19 @@
 import { Service } from 'egg';
 
+export type UserNew = {
+  user_name: string;
+  password: string;
+  email: string;
+};
+
 /**
  * User Service
  */
 export default class User extends Service {
-  public async register(user: { user_name: string; password: string; email: string }) {
+  /**
+   * 用户注册
+   */
+  public async register(user: UserNew) {
     const { ctx, app } = this;
 
     // 检测数据

@@ -58,11 +58,18 @@ export default class UserController extends Controller {
       },
     );
 
-    console.log(ctx.state);
-
     ctx.body = ctx.helper.APISuccess({
       token,
     });
+  }
+
+  /**
+   * 获取当前用户信息
+   */
+  public async GetCurUserInfo() {
+    const { ctx } = this;
+
+    ctx.body = ctx.helper.APISuccess(ctx.state.user);
   }
 
   /**
@@ -73,13 +80,6 @@ export default class UserController extends Controller {
   public async PostRegister() {
     const { ctx } = this;
 
-    const user = await ctx.service.user.register(ctx.request.body);
-
-    // 创建用户失败
-    if (user.code !== 0) {
-      ctx.body = user;
-    } else {
-      ctx.body = user;
-    }
+    ctx.body = await ctx.service.user.register(ctx.request.body);
   }
 }

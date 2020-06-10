@@ -17,6 +17,9 @@ export default (app: Application) => {
 
   router.post(buildPath('user/login'), controller.app.user.PostLogin);
   router.post(buildPath('user/register'), controller.app.user.PostRegister);
+  router.get(buildPath('user/mine'), jwt, auth, controller.app.user.GetCurUserInfo);
+
+  router.post(buildPath('tag'), controller.app.tag.PostTag);
 
   router.post(buildPath('micro-blog'), jwt, auth, controller.app.microBlog.PostMicroBlog);
 };

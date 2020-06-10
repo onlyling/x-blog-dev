@@ -3,8 +3,11 @@ import { Context } from 'egg';
 module.exports = () => {
   return async function errorHandler(ctx: Context, next) {
     try {
+      console.log('--- 1 ---');
       await next();
+      console.log('--- 2 ---');
     } catch (err) {
+      console.log('--- 3 ---');
       // 所有的异常都在 app 上触发一个 error 事件，框架会记录一条错误日志
       ctx.app.emit('error', err, ctx);
 
